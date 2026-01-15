@@ -4,4 +4,5 @@ project(DataStructureHW2)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(DataStructureHW2
-        Huntech26a2.cpp)
+        Huntech26a2.cpp
+        AvlTree.h)
