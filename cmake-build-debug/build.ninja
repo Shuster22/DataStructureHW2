@@ -55,6 +55,12 @@ build CMakeFiles/DataStructureHW2.dir/Huntech26a2.cpp.obj: CXX_COMPILER__DataStr
   OBJECT_DIR = CMakeFiles\DataStructureHW2.dir
   OBJECT_FILE_DIR = CMakeFiles\DataStructureHW2.dir
 
+build CMakeFiles/DataStructureHW2.dir/Hunter.cpp.obj: CXX_COMPILER__DataStructureHW2_unscanned_Debug C$:/Users/bensh/Desktop/Data$ Structure/DataStructureHW2/Hunter.cpp || cmake_object_order_depends_target_DataStructureHW2
+  DEP_FILE = CMakeFiles\DataStructureHW2.dir\Hunter.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DataStructureHW2.dir
+  OBJECT_FILE_DIR = CMakeFiles\DataStructureHW2.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target DataStructureHW2
@@ -63,7 +69,7 @@ build CMakeFiles/DataStructureHW2.dir/Huntech26a2.cpp.obj: CXX_COMPILER__DataStr
 #############################################
 # Link the executable DataStructureHW2.exe
 
-build DataStructureHW2.exe: CXX_EXECUTABLE_LINKER__DataStructureHW2_Debug CMakeFiles/DataStructureHW2.dir/Huntech26a2.cpp.obj
+build DataStructureHW2.exe: CXX_EXECUTABLE_LINKER__DataStructureHW2_Debug CMakeFiles/DataStructureHW2.dir/Huntech26a2.cpp.obj CMakeFiles/DataStructureHW2.dir/Hunter.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\DataStructureHW2.dir

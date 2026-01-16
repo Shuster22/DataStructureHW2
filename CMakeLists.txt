@@ -7,4 +7,6 @@ add_executable(DataStructureHW2
         Huntech26a2.cpp
         AvlTree.h
         Union.h
-        DynamicArray.h)
+        DynamicArray.h
+        Hunter.cpp
+        Hunter.h)
