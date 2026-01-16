@@ -41,13 +41,13 @@ void Union<T>::combine(int idx1 , int idx2) {
     else if(unionF[rIdx1].size >= unionF[rIdx2].size) {
         unionF[rIdx2].parent = rIdx1;
         unionF[rIdx2].nextChrono = unionF[rIdx1].lastChrono;
-        unionF[rIdx1].lastChrono = rIdx2;
+        unionF[rIdx1].lastChrono = unionF[rIdx2].lastChrono;
         unionF[rIdx1].size += unionF[rIdx2].size;
     }
     else {
         unionF[rIdx1].parent = rIdx2;
         unionF[rIdx1].nextChrono = unionF[rIdx2].lastChrono;
-        unionF[rIdx2].lastChrono = rIdx1;
+        unionF[rIdx2].lastChrono = unionF[rIdx1].lastChrono;
         unionF[rIdx2].size += unionF[rIdx1].size;
     }
 }
