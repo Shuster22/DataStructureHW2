@@ -21,7 +21,7 @@ class DynamicArray {
 public:
     DynamicArray(): head(make_unique<Node<T>[]>(1)),size(0),capacity(1){}
     Node<T>& operator[](int i);
-    void push_back(unique_ptr<T> newPtr, int parent);
+    int push_back(unique_ptr<T> newPtr);
 
 };
 template <class T>
@@ -42,13 +42,14 @@ Node<T>& DynamicArray<T>::operator[](int i) {
     throw out_of_range("DynamicArray index out of range");;
 }
 template <class T>
-void DynamicArray<T>::push_back(unique_ptr<T> newPtr , int parent) {
+int DynamicArray<T>::push_back(unique_ptr<T> newPtr) {
     if(size == capacity) {
         reserve();
     }
     head[size].value = move(newPtr);
-    head[size].parent = (parent == -1 ? size : parent);
+    head[size].parent = size;
     head[size].size = 1;
     size++;
+    return size-1;
 }
 #endif //DYNAMICARRAY_H
