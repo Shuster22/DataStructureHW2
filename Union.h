@@ -29,6 +29,7 @@ int Union<T>::find(int idx) {
     while(unionF[idx].parent != idx) {
         next = unionF[idx].parent;
         unionF[idx].parent = tempP;
+        idx = next;
     }
     return tempP;
 }
