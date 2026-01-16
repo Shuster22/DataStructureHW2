@@ -8,8 +8,10 @@ template <class T>
 struct Node {
     unique_ptr<T> value;
     int parent;
+    int nextChrono;
     int size;
-    Node() : parent(-1) ,size(0),value(nullptr){}
+    int lastChrono;
+    Node() : value(nullptr) , parent(-1) ,nextChrono(-1) ,size(0) ,lastChrono(-1){}
 };
 
 template <class T>
@@ -48,6 +50,7 @@ int DynamicArray<T>::push_back(unique_ptr<T> newPtr) {
     }
     head[size].value = move(newPtr);
     head[size].parent = size;
+    head[size].lastChrono = size;
     head[size].size = 1;
     size++;
     return size-1;
