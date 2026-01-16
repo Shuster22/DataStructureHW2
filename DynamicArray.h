@@ -1,0 +1,54 @@
+#include <memory>
+#ifndef DYNAMICARRAY_H
+#define DYNAMICARRAY_H
+
+using namespace std;
+
+template <class T>
+struct Node {
+    unique_ptr<T> value;
+    int parent;
+    int size;
+    Node() : parent(-1) ,size(0),value(nullptr){}
+};
+
+template <class T>
+class DynamicArray {
+    unique_ptr<Node<T>[]> head;
+    int size;
+    int capacity;
+    void reserve();
+public:
+    DynamicArray(): head(make_unique<Node<T>[]>(1)),size(0),capacity(1){}
+    Node<T>& operator[](int i);
+    void push_back(unique_ptr<T> newPtr, int parent);
+
+};
+template <class T>
+void DynamicArray<T>::reserve() {
+    auto temp =  make_unique<Node<T>[]>(capacity*2); // to not change capacity if storge fail
+    capacity = capacity * 2 ;
+    for(int i = 0;i < size;i++) {
+        temp[i].value = move(head[i].value);
+        temp[i].parent = head[i].parent;
+        temp[i].size = head[i].size;
+    }
+    head = std::move(temp);
+}
+
+template <class T>
+Node<T>& DynamicArray<T>::operator[](int i) {
+    if(i < size) return head[i];
+    throw out_of_range("DynamicArray index out of range");;
+}
+template <class T>
+void DynamicArray<T>::push_back(unique_ptr<T> newPtr , int parent) {
+    if(size == capacity) {
+        reserve();
+    }
+    head[size].value = move(newPtr);
+    head[size].parent = (parent == -1 ? size : parent);
+    head[size].size = 1;
+    size++;
+}
+#endif //DYNAMICARRAY_H

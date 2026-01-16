@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(DataStructureHW2
         Huntech26a2.cpp
-        AvlTree.h)
+        AvlTree.h
+        Union.h
+        DynamicArray.h)
