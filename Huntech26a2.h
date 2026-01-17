@@ -13,14 +13,20 @@
 #ifndef HUNTECH26A2_H_
 #define HUNTECH26A2_H_
 #include "wet2util.h"
-
+#include "AvlTree.h"
+#include "DoubleHashTable.h"
+#include "Union.h"
+#include "Hunter.h"
+#include "Squad.h"
 
 class Huntech {
 private:
     //
     // Here you may add anything you need to implement your Huntech class
     //
-
+    DoubleHashTable<int, Union<Hunter>*> hash_table;
+    Union<Hunter> hunters_union;
+    AvlTree<Squad> squads_tree;
 public:
     // <DO-NOT-MODIFY> {
 

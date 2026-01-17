@@ -2,7 +2,7 @@
 #define AVL_TREE_H
 
 #include <memory>
-#include "wet1util.h"
+// #include "wet1util.h"
 
 using namespace std;
 
@@ -14,14 +14,15 @@ struct Node {
     T value;
     int id;
     int height;
+    int weight;
 
     Node(T value)
         : parent(), left(nullptr), right(nullptr),
-          value(std::move(value)), id(this->value->id), height(0) {}
+          value(std::move(value)), id(this->value->id), height(0), weight(1) {}
 
     Node(T value, shared_ptr<Node<T>> parent)
         : parent(parent), left(nullptr), right(nullptr),
-          value(std::move(value)), id(this->value->id), height(0) {}
+          value(std::move(value)), id(this->value->id), height(0), weight(1) {}
 };
 
 template<class T>
@@ -35,12 +36,13 @@ class AvlTree {
     shared_ptr<Node<T>> LR(shared_ptr<Node<T>> oldRoot);
     shared_ptr<Node<T>> RL(shared_ptr<Node<T>> oldRoot);
 
-    int updateHeight(shared_ptr<Node<T>> t);
+    void updateNodeStats(shared_ptr<Node<T>> t);
     int balance(shared_ptr<Node<T>> t);
 
     void replace(shared_ptr<Node<T>> parent,
                  shared_ptr<Node<T>> oldSon,
                  shared_ptr<Node<T>> newSon);
+    T get_ith(shared_ptr<Node<T>> node, int i);
 
 public:
     AvlTree() = default;
@@ -51,6 +53,8 @@ public:
     void del(const int id);
     T search(const int id);
     void rebalance(shared_ptr<Node<T>> suspect);
+    T get_ith_element(int i);
+
 };
 
 template <class T>
@@ -111,7 +115,7 @@ void AvlTree<T>::insert(T value) {
 template <class T>
 void AvlTree<T>::rebalance(shared_ptr<Node<T>> suspect) {
     while (suspect) {
-        updateHeight(suspect);
+        updateNodeStats(suspect);
         if (balance(suspect) > 1) {
             if (balance(suspect->left) >= 0) suspect = LL(suspect);
             else suspect = LR(suspect);
@@ -138,8 +142,8 @@ shared_ptr<Node<T>> AvlTree<T>::RR(shared_ptr<Node<T>> oldRoot) {
     newRoot->parent = parent;
     replace(parent, oldRoot, newRoot);
 
-    updateHeight(oldRoot);
-    updateHeight(newRoot);
+    updateNodeStats(oldRoot);
+    updateNodeStats(newRoot);
     return newRoot;
 }
 
@@ -157,8 +161,8 @@ shared_ptr<Node<T>> AvlTree<T>::LL(shared_ptr<Node<T>> d) {
     replace(parent, d, b);
     b->parent = parent;
 
-    updateHeight(d);
-    updateHeight(b);
+    updateNodeStats(d);
+    updateNodeStats(b);
     return b;
 }
 
@@ -175,12 +179,16 @@ shared_ptr<Node<T>> AvlTree<T>::RL(shared_ptr<Node<T>> oldRoot) {
 }
 
 template <class T>
-int AvlTree<T>::updateHeight(shared_ptr<Node<T>> t) {
-    if (!t) return -1;
-    int left = (t->left ? t->left->height : -1);
-    int right = (t->right ? t->right->height : -1);
-    t->height = 1 + max(left, right);
-    return t->height;
+void AvlTree<T>::updateNodeStats(shared_ptr<Node<T>> t) {
+    if (!t) return;
+
+    int lh = t->left ? t->left->height : -1;
+    int rh = t->right ? t->right->height : -1;
+    t->height = 1 + max(lh, rh);
+
+    int lw = t->left ? t->left->weight : 0;
+    int rw = t->right ? t->right->weight : 0;
+    t->weight = 1 + lw + rw;
 }
 
 template <class T>
@@ -209,41 +217,61 @@ void AvlTree<T>::del(const int targetId) {
     auto target = searchNode(targetId);
     if (!target) return;
 
+    shared_ptr<Node<T>> nodeToStartRebalanceFrom;
     auto parent = target->parent.lock();
 
-    if (!target->left && !target->right) {
-        replace(parent, target, nullptr);
-    }
-    else if (!target->left && target->right) {
-        replace(parent, target, target->right);
-    }
-    else if (target->left && !target->right) {
-        replace(parent, target, target->left);
+    if (!target->left || !target->right) {
+        auto child = target->left ? target->left : target->right;
+        replace(parent, target, child);
+        nodeToStartRebalanceFrom = parent; // Start from parent of deleted node
     }
     else {
+        // Find successor
         auto replacement = target->right;
-        auto repParent = target;
-
         while (replacement->left) {
-            repParent = replacement;
             replacement = replacement->left;
         }
 
-        if (repParent != target) {
-            repParent->left = replacement->right;
-            if (repParent->left)
-                repParent->left->parent = repParent;
+        // The physical parent of the successor is where weights change first
+        auto repParent = replacement->parent.lock();
 
+        // If the successor isn't the immediate child, disconnect it from its parent
+        if (repParent != target) {
+            nodeToStartRebalanceFrom = repParent; // Weights start changing here
+            replace(repParent, replacement, replacement->right);
             replacement->right = target->right;
-            replacement->right->parent = replacement;
+            if (replacement->right) replacement->right->parent = replacement;
+        } else {
+            // If successor IS the immediate child, weights start changing at replacement
+            nodeToStartRebalanceFrom = replacement;
         }
 
+        // Finalize replacement
         replacement->left = target->left;
-        replacement->left->parent = replacement;
+        if (replacement->left) replacement->left->parent = replacement;
 
         replace(parent, target, replacement);
+
+        // Crucial: Update the replacement node itself before rebalancing upwards
+        updateNodeStats(replacement);
     }
-    rebalance(parent);
+
+    // This loop in rebalance will now handle the rest of the path to the root
+    rebalance(nodeToStartRebalanceFrom);
+}
+template <class T>
+T AvlTree<T>:: get_ith(shared_ptr<Node<T>> node, int i) {
+    int leftSize = (node->left) ? node->left->weight : 0;
+    if (i == leftSize + 1) return node->value;
+    if (i <= leftSize) return get_ith(node->left, i);
+    return get_ith(node->right, i - leftSize - 1);
 }
 
+template <class T>
+T AvlTree<T>:: get_ith_element(int i) {
+    if (i < 1 || i > root->weight) {
+        throw StatusType::FAILURE;
+    }
+    return get_ith(root, i);
+}
 #endif

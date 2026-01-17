@@ -3,9 +3,13 @@
 
 #include "Huntech26a2.h"
 
-Huntech::Huntech() {}
 
-Huntech::~Huntech() {}
+Huntech::Huntech::Huntech() {
+}
+
+Huntech::~Huntech() {
+
+}
 
 StatusType Huntech::add_squad(int squadId) {
     return StatusType::FAILURE;
