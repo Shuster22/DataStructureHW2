@@ -9,4 +9,5 @@ add_executable(DataStructureHW2
         Union.h
         DynamicArray.h
         Hunter.cpp
-        Hunter.h)
+        Hunter.h
+        DoubleHashTable.h)
