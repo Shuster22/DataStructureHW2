@@ -3,8 +3,8 @@
 
 #include "Huntech26a2.h"
 
-Huntech::Huntech() {
 
+Huntech::Huntech::Huntech() {
 }
 
 Huntech::~Huntech() {
