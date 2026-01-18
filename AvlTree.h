@@ -8,41 +8,43 @@ using namespace std;
 
 template <class T>
 struct Node {
-    weak_ptr<Node<T>> parent;
-    shared_ptr<Node<T>> left;
-    shared_ptr<Node<T>> right;
+    Node<T>* parent;
+    unique_ptr<Node<T>> left;
+    unique_ptr<Node<T>> right;
     T value;
     int id;
     int height;
     int weight;
 
     Node(T value)
-        : parent(), left(nullptr), right(nullptr),
+        : parent(nullptr), left(nullptr), right(nullptr),
           value(std::move(value)), id(this->value->id), height(0), weight(1) {}
 
-    Node(T value, shared_ptr<Node<T>> parent)
+    Node(T value, Node<T>* parent)
         : parent(parent), left(nullptr), right(nullptr),
           value(std::move(value)), id(this->value->id), height(0), weight(1) {}
 };
 
 template<class T>
 class AvlTree {
-    shared_ptr<Node<T>> root;
+    unique_ptr<Node<T>> root;
 
-    shared_ptr<Node<T>> searchNode(const int id);
+    Node<T>* searchNode(const int id);
 
-    shared_ptr<Node<T>> RR(shared_ptr<Node<T>> oldRoot);
-    shared_ptr<Node<T>> LL(shared_ptr<Node<T>> d);
-    shared_ptr<Node<T>> LR(shared_ptr<Node<T>> oldRoot);
-    shared_ptr<Node<T>> RL(shared_ptr<Node<T>> oldRoot);
+    Node<T>* RR(Node<T>* oldRoot);
+    Node<T>* LL(Node<T>* d);
+    Node<T>* LR(Node<T>* oldRoot);
+    Node<T>* RL(Node<T>* oldRoot);
 
-    void updateNodeStats(shared_ptr<Node<T>> t);
-    int balance(shared_ptr<Node<T>> t);
+    void updateNodeStats(Node<T>* t);
+    int balance(Node<T>* t);
 
-    void replace(shared_ptr<Node<T>> parent,
-                 shared_ptr<Node<T>> oldSon,
-                 shared_ptr<Node<T>> newSon);
-    T get_ith(shared_ptr<Node<T>> node, int i);
+    void replace(Node<T>* parent,
+                 Node<T>* oldSon,
+                 unique_ptr<Node<T>> newSon);
+    T get_ith(Node<T>* node, int i);
+
+    unique_ptr<Node<T>>& link(Node<T>* n);
 
 public:
     AvlTree() = default;
@@ -51,32 +53,38 @@ public:
     bool isEmpty();
     void insert(T value);
     void del(const int id);
-    T search(const int id);
-    void rebalance(shared_ptr<Node<T>> suspect);
+    typename T::element_type& search(const int id);
+    void rebalance(Node<T>* suspect);
     T get_ith_element(int i);
-
 };
 
 template <class T>
-shared_ptr<Node<T>> AvlTree<T>::searchNode(const int id) {
-    auto temp = root;
+unique_ptr<Node<T>>& AvlTree<T>::link(Node<T>* n) {
+    if (!n->parent) return root;
+    if (n->parent->left.get() == n) return n->parent->left;
+    return n->parent->right;
+}
+
+template <class T>
+Node<T>* AvlTree<T>::searchNode(const int id) {
+    auto temp = root.get();
     while (temp) {
         if (temp->id == id) return temp;
-        else if (id > temp->id) temp = temp->right;
-        else temp = temp->left;
+        else if (id > temp->id) temp = temp->right.get();
+        else temp = temp->left.get();
     }
     return nullptr;
 }
 
 template <class T>
-T AvlTree<T>::search(const int id) {
-    auto temp = root;
+typename T::element_type& AvlTree<T>::search(const int id) {
+    auto temp = root.get();
     while (temp) {
-        if (temp->id == id) return temp->value;
-        else if (id > temp->id) temp = temp->right;
-        else temp = temp->left;
+        if (temp->id == id) return *(temp->value);
+        else if (id > temp->id) temp = temp->right.get();
+        else temp = temp->left.get();
     }
-    return nullptr;
+    throw StatusType::FAILURE;
 }
 
 template <class T>
@@ -87,99 +95,107 @@ bool AvlTree<T>::isEmpty() {
 template <class T>
 void AvlTree<T>::insert(T value) {
     if (!root) {
-        root = make_shared<Node<T>>(std::move(value));
+        root = make_unique<Node<T>>(std::move(value));
         return;
     }
-    auto temp = root;
+    auto temp = root.get();
     while (temp) {
         if (value->id == temp->id) {
             throw StatusType::FAILURE;
         }
         if (value->id > temp->id) {
             if (!temp->right) {
-                temp->right = make_shared<Node<T>>(std::move(value), temp);
+                temp->right = make_unique<Node<T>>(std::move(value), temp);
                 break;
             }
-            temp = temp->right;
+            temp = temp->right.get();
         } else {
             if (!temp->left) {
-                temp->left = make_shared<Node<T>>(std::move(value), temp);
+                temp->left = make_unique<Node<T>>(std::move(value), temp);
                 break;
             }
-            temp = temp->left;
+            temp = temp->left.get();
         }
     }
     rebalance(temp);
 }
 
 template <class T>
-void AvlTree<T>::rebalance(shared_ptr<Node<T>> suspect) {
+void AvlTree<T>::rebalance(Node<T>* suspect) {
     while (suspect) {
         updateNodeStats(suspect);
         if (balance(suspect) > 1) {
-            if (balance(suspect->left) >= 0) suspect = LL(suspect);
+            if (balance(suspect->left.get()) >= 0) suspect = LL(suspect);
             else suspect = LR(suspect);
         }
         else if (balance(suspect) < -1) {
-            if (balance(suspect->right) <= 0) suspect = RR(suspect);
+            if (balance(suspect->right.get()) <= 0) suspect = RR(suspect);
             else suspect = RL(suspect);
         }
-        suspect = suspect->parent.lock();
+        suspect = suspect->parent;
     }
 }
 
 template <class T>
-shared_ptr<Node<T>> AvlTree<T>::RR(shared_ptr<Node<T>> oldRoot) {
-    auto parent = oldRoot->parent.lock();
-    auto newRoot = oldRoot->right;
-    auto b = newRoot->left;
+Node<T>* AvlTree<T>::RR(Node<T>* oldRoot) {
+    auto parent = oldRoot->parent;
 
-    newRoot->left = oldRoot;
-    oldRoot->parent = newRoot;
-    oldRoot->right = b;
-    if (b) b->parent = oldRoot;
+    auto& oldLink = link(oldRoot);
+    unique_ptr<Node<T>> A = std::move(oldLink);          // oldRoot
+    unique_ptr<Node<T>> B = std::move(A->right);         // newRoot
+    unique_ptr<Node<T>> b = std::move(B->left);          // B.left subtree
 
-    newRoot->parent = parent;
-    replace(parent, oldRoot, newRoot);
+    B->left = std::move(A);
+    B->left->parent = B.get();
 
-    updateNodeStats(oldRoot);
-    updateNodeStats(newRoot);
-    return newRoot;
+    B->left->right = std::move(b);
+    if (B->left->right) B->left->right->parent = B->left.get();
+
+    B->parent = parent;
+    oldLink = std::move(B);
+
+    updateNodeStats(oldLink->left.get());
+    updateNodeStats(oldLink.get());
+    return oldLink.get();
 }
 
 template <class T>
-shared_ptr<Node<T>> AvlTree<T>::LL(shared_ptr<Node<T>> d) {
-    auto b = d->left;
-    auto c = b->right;
-    auto parent = d->parent.lock();
+Node<T>* AvlTree<T>::LL(Node<T>* d) {
+    auto parent = d->parent;
 
-    b->right = d;
-    d->parent = b;
-    d->left = c;
-    if (c) c->parent = d;
+    auto& oldLink = link(d);
+    unique_ptr<Node<T>> A = std::move(oldLink);          // d
+    unique_ptr<Node<T>> B = std::move(A->left);          // b
+    unique_ptr<Node<T>> c = std::move(B->right);         // c
 
-    replace(parent, d, b);
-    b->parent = parent;
+    B->right = std::move(A);
+    B->right->parent = B.get();
 
-    updateNodeStats(d);
-    updateNodeStats(b);
-    return b;
+    B->right->left = std::move(c);
+    if (B->right->left) B->right->left->parent = B->right.get();
+
+    B->parent = parent;
+    oldLink = std::move(B);
+
+    updateNodeStats(oldLink->right.get());
+    updateNodeStats(oldLink.get());
+    return oldLink.get();
 }
 
 template <class T>
-shared_ptr<Node<T>> AvlTree<T>::LR(shared_ptr<Node<T>> oldRoot) {
-    RR(oldRoot->left);
+Node<T>* AvlTree<T>::LR(Node<T>* oldRoot) {
+    RR(oldRoot->left.get());
     return LL(oldRoot);
 }
 
 template <class T>
-shared_ptr<Node<T>> AvlTree<T>::RL(shared_ptr<Node<T>> oldRoot) {
-    LL(oldRoot->right);
+Node<T>* AvlTree<T>::RL(Node<T>* oldRoot) {
+    LL(oldRoot->right.get());
     return RR(oldRoot);
 }
 
 template <class T>
-void AvlTree<T>::updateNodeStats(shared_ptr<Node<T>> t) {
+void AvlTree<T>::updateNodeStats(Node<T>* t) {
     if (!t) return;
 
     int lh = t->left ? t->left->height : -1;
@@ -192,86 +208,96 @@ void AvlTree<T>::updateNodeStats(shared_ptr<Node<T>> t) {
 }
 
 template <class T>
-int AvlTree<T>::balance(shared_ptr<Node<T>> t) {
+int AvlTree<T>::balance(Node<T>* t) {
+    if (!t) return 0;
     int lh = t->left ? t->left->height : -1;
     int rh = t->right ? t->right->height : -1;
     return lh - rh;
 }
 
 template <class T>
-void AvlTree<T>::replace(shared_ptr<Node<T>> parent,
-                         shared_ptr<Node<T>> oldSon,
-                         shared_ptr<Node<T>> newSon) {
+void AvlTree<T>::replace(Node<T>* parent,
+                         Node<T>* oldSon,
+                         unique_ptr<Node<T>> newSon) {
     if (!parent) {
-        root = newSon;
-        if (newSon) newSon->parent.reset();
+        root = std::move(newSon);
+        if (root) root->parent = nullptr;
         return;
     }
-    if (parent->left == oldSon) parent->left = newSon;
-    else parent->right = newSon;
-    if (newSon) newSon->parent = parent;
+    if (parent->left.get() == oldSon) parent->left = std::move(newSon);
+    else parent->right = std::move(newSon);
+    if (parent->left) parent->left->parent = parent;
+    if (parent->right) parent->right->parent = parent;
 }
 
 template <class T>
 void AvlTree<T>::del(const int targetId) {
     auto target = searchNode(targetId);
-    if (!target) return;
+    if (!target) throw StatusType::FAILURE;
 
-    shared_ptr<Node<T>> nodeToStartRebalanceFrom;
-    auto parent = target->parent.lock();
+    Node<T>* nodeToStartRebalanceFrom = nullptr;
+    auto parent = target->parent;
+
+    auto& targetLink = link(target);
 
     if (!target->left || !target->right) {
-        auto child = target->left ? target->left : target->right;
-        replace(parent, target, child);
-        nodeToStartRebalanceFrom = parent; // Start from parent of deleted node
+        unique_ptr<Node<T>> child = target->left ? std::move(targetLink->left) : std::move(targetLink->right);
+        targetLink = std::move(child);
+        if (targetLink) targetLink->parent = parent;
+        nodeToStartRebalanceFrom = parent;
     }
     else {
-        // Find successor
-        auto replacement = target->right;
-        while (replacement->left) {
-            replacement = replacement->left;
+        // Find successor (by link)
+        unique_ptr<Node<T>>* succLinkPtr = &targetLink->right;
+        Node<T>* succParent = target;
+        while ((*succLinkPtr)->left) {
+            succParent = (*succLinkPtr).get();
+            succLinkPtr = &((*succLinkPtr)->left);
         }
 
-        // The physical parent of the successor is where weights change first
-        auto repParent = replacement->parent.lock();
+        unique_ptr<Node<T>> succ = std::move(*succLinkPtr);          // successor node
+        // Disconnect successor from its old place
+        *succLinkPtr = std::move(succ->right);
+        if (*succLinkPtr) (*succLinkPtr)->parent = succParent;
 
-        // If the successor isn't the immediate child, disconnect it from its parent
-        if (repParent != target) {
-            nodeToStartRebalanceFrom = repParent; // Weights start changing here
-            replace(repParent, replacement, replacement->right);
-            replacement->right = target->right;
-            if (replacement->right) replacement->right->parent = replacement;
+        if (succParent != target) {
+            nodeToStartRebalanceFrom = succParent;
         } else {
-            // If successor IS the immediate child, weights start changing at replacement
-            nodeToStartRebalanceFrom = replacement;
+            nodeToStartRebalanceFrom = succ.get();
         }
 
-        // Finalize replacement
-        replacement->left = target->left;
-        if (replacement->left) replacement->left->parent = replacement;
+        // Move target's children under successor
+        succ->left = std::move(targetLink->left);
+        if (succ->left) succ->left->parent = succ.get();
 
-        replace(parent, target, replacement);
+        succ->right = std::move(targetLink->right);
+        if (succ->right) succ->right->parent = succ.get();
 
-        // Crucial: Update the replacement node itself before rebalancing upwards
-        updateNodeStats(replacement);
+        // Place successor where target was
+        succ->parent = parent;
+        targetLink = std::move(succ);
+
+        updateNodeStats(targetLink.get());
     }
 
-    // This loop in rebalance will now handle the rest of the path to the root
     rebalance(nodeToStartRebalanceFrom);
 }
+
 template <class T>
-T AvlTree<T>:: get_ith(shared_ptr<Node<T>> node, int i) {
+T AvlTree<T>::get_ith(Node<T>* node, int i) {
     int leftSize = (node->left) ? node->left->weight : 0;
     if (i == leftSize + 1) return node->value;
-    if (i <= leftSize) return get_ith(node->left, i);
-    return get_ith(node->right, i - leftSize - 1);
+    if (i <= leftSize) return get_ith(node->left.get(), i);
+    return get_ith(node->right.get(), i - leftSize - 1);
 }
 
 template <class T>
-T AvlTree<T>:: get_ith_element(int i) {
-    if (i < 1 || i > root->weight) {
+T AvlTree<T>::get_ith_element(int i) {
+    if (!root || i < 1 || i > root->weight) {
         throw StatusType::FAILURE;
     }
-    return get_ith(root, i);
+    return get_ith(root.get(), i);
 }
+
 #endif
+

@@ -12,11 +12,31 @@ Huntech::~Huntech() {
 }
 
 StatusType Huntech::add_squad(int squadId) {
-    return StatusType::FAILURE;
+    if(squadId <= 0) return StatusType::INVALID_INPUT;
+    try {
+        squadsTree.insert(make_unique<Squad>(squadId));
+    }
+    catch(bad_alloc& e) {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    catch(StatusType e) {
+        return e;
+    }
+    return StatusType::SUCCESS;
 }
 
 StatusType Huntech::remove_squad(int squadId) {
-    return StatusType::FAILURE;
+    if(squadId <= 0) return StatusType::INVALID_INPUT;
+    try {
+        squadsTree.del(squadId);
+    }
+    catch(bad_alloc& e) {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    catch(StatusType e) {
+        return e;
+    }
+    return StatusType::SUCCESS;
 }
 
 StatusType Huntech::add_hunter(int hunterId,
@@ -25,10 +45,30 @@ StatusType Huntech::add_hunter(int hunterId,
                                int aura,
                                int fightsHad)
 {
-    return StatusType::FAILURE;
+    if(squadId <= 0 || hunterId <= 0 || !nenType.isValid()||fightsHad < 0) return StatusType::INVALID_INPUT;
+    try {
+        if(hashTable.find(hunterId) != nullptr) return StatusType::FAILURE;
+        Squad& squad = squadsTree.search(squadId);
+        int newIdx = huntersUnion.makeSet(Hunter(hunterId ,nenType,aura,fightsHad));
+        hashTable.insert(hunterId,newIdx); // save hunter id, Union Index
+        int uHeadIdx = squad.getUnionHead();
+        if(uHeadIdx == -1) squad.setUnionHead(newIdx); //if squad has no head put new hunter has head of the squad
+        else {
+            huntersUnion.combine(newIdx,uHeadIdx); // add newHunter to his Squad
+            squad.setUnionHead(huntersUnion.find(newIdx)); //set newUnionHead
+        }
+    }
+    catch(bad_alloc& e) {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    catch(StatusType e) {
+        return e;
+    }
+    return StatusType::SUCCESS;
 }
 
 output_t<int> Huntech::squad_duel(int squadId1, int squadId2) {
+
     return 0;
 }
 

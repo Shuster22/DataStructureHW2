@@ -24,9 +24,9 @@ private:
     //
     // Here you may add anything you need to implement your Huntech class
     //
-    DoubleHashTable<int, Union<Hunter>*> hash_table;
-    Union<Hunter> hunters_union;
-    AvlTree<Squad> squads_tree;
+    DoubleHashTable<int, int> hashTable;
+    Union<Hunter> huntersUnion;
+    AvlTree<unique_ptr<Squad>> squadsTree;
 public:
     // <DO-NOT-MODIFY> {
 

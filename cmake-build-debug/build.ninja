@@ -61,6 +61,18 @@ build CMakeFiles/DataStructureHW2.dir/Hunter.cpp.obj: CXX_COMPILER__DataStructur
   OBJECT_DIR = CMakeFiles\DataStructureHW2.dir
   OBJECT_FILE_DIR = CMakeFiles\DataStructureHW2.dir
 
+build CMakeFiles/DataStructureHW2.dir/main26a2.cpp.obj: CXX_COMPILER__DataStructureHW2_unscanned_Debug C$:/Users/bensh/Desktop/Data$ Structure/DataStructureHW2/main26a2.cpp || cmake_object_order_depends_target_DataStructureHW2
+  DEP_FILE = CMakeFiles\DataStructureHW2.dir\main26a2.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DataStructureHW2.dir
+  OBJECT_FILE_DIR = CMakeFiles\DataStructureHW2.dir
+
+build CMakeFiles/DataStructureHW2.dir/Squad.cpp.obj: CXX_COMPILER__DataStructureHW2_unscanned_Debug C$:/Users/bensh/Desktop/Data$ Structure/DataStructureHW2/Squad.cpp || cmake_object_order_depends_target_DataStructureHW2
+  DEP_FILE = CMakeFiles\DataStructureHW2.dir\Squad.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DataStructureHW2.dir
+  OBJECT_FILE_DIR = CMakeFiles\DataStructureHW2.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target DataStructureHW2
@@ -69,7 +81,7 @@ build CMakeFiles/DataStructureHW2.dir/Hunter.cpp.obj: CXX_COMPILER__DataStructur
 #############################################
 # Link the executable DataStructureHW2.exe
 
-build DataStructureHW2.exe: CXX_EXECUTABLE_LINKER__DataStructureHW2_Debug CMakeFiles/DataStructureHW2.dir/Huntech26a2.cpp.obj CMakeFiles/DataStructureHW2.dir/Hunter.cpp.obj
+build DataStructureHW2.exe: CXX_EXECUTABLE_LINKER__DataStructureHW2_Debug CMakeFiles/DataStructureHW2.dir/Huntech26a2.cpp.obj CMakeFiles/DataStructureHW2.dir/Hunter.cpp.obj CMakeFiles/DataStructureHW2.dir/main26a2.cpp.obj CMakeFiles/DataStructureHW2.dir/Squad.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\DataStructureHW2.dir

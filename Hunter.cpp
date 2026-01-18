@@ -3,3 +3,9 @@
 //
 
 #include "Hunter.h"
+int Hunter::getFights() {
+    return fightsHad;
+}
+void Hunter::setFights(int fights) {
+    fightsHad = fights;
+}

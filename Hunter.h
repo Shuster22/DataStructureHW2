@@ -6,8 +6,13 @@
 class Hunter {
     int id;
     NenAbility ability;
+    int aura;
+    int fightsHad;
 public:
-    Hunter(int id , NenAbility& hAbility) : id(id) , ability(hAbility){}
+    Hunter(int id , const NenAbility& hAbility ,int aura, int fightsHad) : id(id) ,
+    ability(hAbility) ,aura(aura), fightsHad(fightsHad){}
+    int getFights();
+    void setFights(int fights);
 };
 
 
