@@ -12,7 +12,12 @@ class Squad {
     int uHeadIdx; // union Head Index
 public:
     int totalAura;
-    explicit Squad(int id) : id(id) , uHeadIdx(-1), totalAura(0){}
+    int totalNenAbility;
+    int Experience;
+
+
+    explicit Squad(int id) : id(id) , uHeadIdx(-1), totalAura(0),
+    totalNenAbility(0), Experience(0){}
     int getUnionHead();
     void setUnionHead(int uHead);
 };

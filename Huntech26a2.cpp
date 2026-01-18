@@ -57,11 +57,14 @@ StatusType Huntech::add_hunter(int hunterId,
         if(hashTable.find(hunterId) != nullptr) return StatusType::FAILURE;
         Squad& squad = squadsTree.search(squadId);
 
-        // update squad aura in squadsAuraTree
+        // update squad total aura and nen ability
         int totalAura = squad.totalAura;
+        squad.totalAura += aura;
+        squad.totalNenAbility += nenType.getEffectiveNenAbility();
+
+        // update squad aura in squadsAuraTree
         AuraKey key(totalAura, squadId);
         squadsAuraTree.del(key);
-        squad.totalAura += aura;
         AuraKey newKey(squad.totalAura, squadId);
         squadsAuraTree.insert(newKey, make_unique<Squad>(squadId));
 
