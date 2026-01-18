@@ -14,7 +14,11 @@ Huntech::~Huntech() {
 StatusType Huntech::add_squad(int squadId) {
     if(squadId <= 0) return StatusType::INVALID_INPUT;
     try {
-        squadsTree.insert(make_unique<Squad>(squadId));
+
+        squadsTree.insert(squadId, make_unique<Squad>(squadId));
+        AuraKey key(0, squadId);
+        squadsAuraTree.insert(key, make_unique<Squad>(squadId));
+
     }
     catch(bad_alloc& e) {
         return StatusType::ALLOCATION_ERROR;
@@ -28,6 +32,9 @@ StatusType Huntech::add_squad(int squadId) {
 StatusType Huntech::remove_squad(int squadId) {
     if(squadId <= 0) return StatusType::INVALID_INPUT;
     try {
+        int totalAura = squadsTree.search(squadId).totalAura;
+        AuraKey key(totalAura, squadId);
+        squadsAuraTree.del(key);
         squadsTree.del(squadId);
     }
     catch(bad_alloc& e) {
@@ -49,6 +56,18 @@ StatusType Huntech::add_hunter(int hunterId,
     try {
         if(hashTable.find(hunterId) != int()) return StatusType::FAILURE;
         Squad& squad = squadsTree.search(squadId);
+
+        // update squad total aura and nen ability
+        int totalAura = squad.totalAura;
+        squad.totalAura += aura;
+        squad.totalNenAbility += nenType.getEffectiveNenAbility();
+
+        // update squad aura in squadsAuraTree
+        AuraKey key(totalAura, squadId);
+        squadsAuraTree.del(key);
+        AuraKey newKey(squad.totalAura, squadId);
+        squadsAuraTree.insert(newKey, make_unique<Squad>(squadId));
+
         int newIdx = huntersUnion.makeSet(Hunter(hunterId ,nenType,aura,fightsHad));
         hashTable.insert(hunterId,newIdx); // save hunter id, Union Index
         int uHeadIdx = squad.getUnionHead();

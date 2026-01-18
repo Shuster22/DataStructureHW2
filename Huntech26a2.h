@@ -24,9 +24,38 @@ private:
     //
     // Here you may add anything you need to implement your Huntech class
     //
+    struct AuraKey {
+        int aura;
+        int id;
+
+        // The AVL tree uses this to decide which squad comes "first" (Rank 1)
+        bool operator<(const AuraKey& other) const {
+            if (this->aura != other.aura) {
+                return this->aura < other.aura;
+            }
+            // If auras are equal,
+            // the one with the LARGER ID is considered "smaller"
+            // so that the one with the SMALLER ID is ranked higher.
+            return this->id > other.id;
+        }
+
+        bool operator>(const AuraKey& other) const {
+            return other < *this;
+        }
+
+        bool operator==(const AuraKey& other) const {
+            return this->aura == other.aura && this->id == other.id;
+        }
+    };
+
+
+
     DoubleHashTable<int, int> hashTable;
     Union<Hunter> huntersUnion;
-    AvlTree<unique_ptr<Squad>> squadsTree;
+    AvlTree<int, unique_ptr<Squad>> squadsTree;
+    AvlTree<AuraKey, unique_ptr<Squad>> squadsAuraTree;
+
+
 public:
     // <DO-NOT-MODIFY> {
 
