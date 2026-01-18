@@ -47,7 +47,7 @@ StatusType Huntech::add_hunter(int hunterId,
 {
     if(squadId <= 0 || hunterId <= 0 || !nenType.isValid()||fightsHad < 0) return StatusType::INVALID_INPUT;
     try {
-        if(hashTable.find(hunterId) != nullptr) return StatusType::FAILURE;
+        if(hashTable.find(hunterId) != int()) return StatusType::FAILURE;
         Squad& squad = squadsTree.search(squadId);
         int newIdx = huntersUnion.makeSet(Hunter(hunterId ,nenType,aura,fightsHad));
         hashTable.insert(hunterId,newIdx); // save hunter id, Union Index
@@ -73,11 +73,36 @@ output_t<int> Huntech::squad_duel(int squadId1, int squadId2) {
 }
 
 output_t<int> Huntech::get_hunter_fights_number(int hunterId) {
-    return 0;
+    int fights = 0;
+    if(hunterId <= 0) return output_t<int>(StatusType::INVALID_INPUT);
+    try {
+        int uIdx = hashTable.find(hunterId);
+        fights = huntersUnion.fightsHad(uIdx); // log*(n)
+
+    }
+    catch(bad_alloc& e) {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    catch(StatusType e) {
+        return e;
+    }
+    return output_t<int>(fights);
 }
 
 output_t<int> Huntech::get_squad_experience(int squadId) {
-    return 0;
+    int exp = 0;
+    if(squadId <= 0) return output_t<int>(StatusType::INVALID_INPUT);
+    try {
+        Squad& squad = squadsTree.search(squadId);
+        exp = huntersUnion.exp(squad.getUnionHead());
+    }
+    catch(bad_alloc& e) {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    catch(StatusType e) {
+        return e;
+    }
+    return output_t<int>(exp);
 }
 
 output_t<int> Huntech::get_ith_collective_aura_squad(int i) {
@@ -85,7 +110,19 @@ output_t<int> Huntech::get_ith_collective_aura_squad(int i) {
 }
 
 output_t<NenAbility> Huntech::get_partial_nen_ability(int hunterId) {
-    return NenAbility();
+    NenAbility ability;
+    if(hunterId <= 0) return output_t<NenAbility>(StatusType::INVALID_INPUT);
+    try {
+        int uIdx = hashTable.find(hunterId);
+        ability = huntersUnion.ability(uIdx); // log*(n)
+    }
+    catch(bad_alloc& e) {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    catch(StatusType e) {
+        return e;
+    }
+    return output_t<NenAbility>(ability);
 }
 
 StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {

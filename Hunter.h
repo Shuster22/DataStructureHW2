@@ -13,6 +13,8 @@ public:
     ability(hAbility) ,aura(aura), fightsHad(fightsHad){}
     int getFights();
     void setFights(int fights);
+    NenAbility& getNenAbility();
+    NenAbility& getNenAbility() const;
 };
 
 

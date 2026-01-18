@@ -8,10 +8,9 @@ template <class T>
 struct ANode {
     unique_ptr<T> value;
     int parent;
-    int nextChrono;
     int size;
-    int lastChrono;
-    ANode() : value(nullptr) , parent(-1) ,nextChrono(-1) ,size(0) ,lastChrono(-1){}
+    int experience;
+    ANode() : value(nullptr) , parent(-1) ,size(0) ,experience(0){}
 };
 
 template <class T>
@@ -24,18 +23,16 @@ public:
     DynamicArray(): head(make_unique<ANode<T>[]>(1)),size(0),capacity(1){}
     ANode<T>& operator[](int i);
     int push_back(T newPtr);
-
 };
 template <class T>
 void DynamicArray<T>::reserve() {
     auto temp =  make_unique<ANode<T>[]>(capacity*2); // to not change capacity if storge fail
     capacity = capacity * 2 ;
-    for(int i = 0;i < size;i++) {
+    for(int i = 0; i < size ;i++) {
         temp[i].value = move(head[i].value);
         temp[i].parent = head[i].parent;
         temp[i].size = head[i].size;
-        temp[i].lastChrono = head[i].lastChorono;
-        temp[i].nextChrono = head[i].nextChorono;
+        temp[i].experience = head[i].experience;
     }
     head = std::move(temp);
 }
@@ -53,7 +50,6 @@ int DynamicArray<T>::push_back(T newPtr) {
     }
     head[size].value = move(uPtr);
     head[size].parent = size;
-    head[size].lastChrono = size;
     head[size].size = 1;
     size++;
     return size-1;

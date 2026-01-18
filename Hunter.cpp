@@ -9,3 +9,9 @@ int Hunter::getFights() {
 void Hunter::setFights(int fights) {
     fightsHad = fights;
 }
+NenAbility& Hunter::getNenAbility() {
+    return ability;
+}
+const NenAbility& Hunter::getNenAbility() const {
+    return ability;
+}

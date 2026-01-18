@@ -4,6 +4,8 @@
 #ifndef UNION_H
 #define UNION_H
 
+using namespace std;
+
 template <class T>
 class Union {
 DynamicArray<T> unionF;
@@ -13,6 +15,8 @@ public:
     int makeSet(T value);
     int find(int idx);
     int fightsHad(int idx);
+    int exp(int idx);
+    NenAbility ability(int idx);
     void combine(int idx1 , int idx2);
 };
 
@@ -28,18 +32,27 @@ int Union<T>::find(int idx) {
     int next = idx; //given index
     int tempP = 0; //parent
     int fights = 0;
+    NenAbility ability;
+    NenAbility tempAbility;
     int tempFights = 0;
     while(unionF[idx].parent != idx) {
         fights +=unionF[idx].value->getFights();
+        ability+=unionF[idx].value->getNenAbility();
         idx= unionF[idx].parent;
     }
     fights +=unionF[idx].value->getFights();
+    ability+= unionF[idx].value->getNenAbility();
     tempP = idx;
     idx = next;
     while(unionF[idx].parent != idx) {
         tempFights = unionF[idx].value->getFights();
         unionF[idx].value->setFights(fights-unionF[tempP].value->getFights());
         fights-= tempFights;
+
+        tempAbility = unionF[idx].value->getNenAbility();
+        unionF[idx].value->getNenAbility() = ability - unionF[tempP].value->getNenAbility();
+        ability-= tempAbility;
+
         next = unionF[idx].parent;
         unionF[idx].parent = tempP;
         idx = next;
@@ -53,30 +66,41 @@ void Union<T>::combine(int idx1 , int idx2) {
     int rIdx2 = find(idx2);
     if(rIdx1 == rIdx2) throw StatusType::FAILURE;
     else if(unionF[rIdx1].size >= unionF[rIdx2].size) {
+        NenAbility BigRoot = unionF[rIdx1].value->getNenAbility();
+        NenAbility SmallRoot = unionF[rIdx2].value->getNenAbility();
+        unionF[rIdx2].value->getNenAbility() = SmallRoot-BigRoot;
         unionF[rIdx2].parent = rIdx1;
         unionF[rIdx2].value->setFights(unionF[rIdx2].value->getFights() - unionF[rIdx1].value->getFights());
-        unionF[rIdx2].nextChrono = unionF[rIdx1].lastChrono;
-        unionF[rIdx1].lastChrono = unionF[rIdx2].lastChrono;
         unionF[rIdx1].size += unionF[rIdx2].size;
+        unionF[rIdx1].experience+= unionF[rIdx2].experience;
+
     }
     else {
+        NenAbility BigRoot = unionF[rIdx2].value->getNenAbility();
+        NenAbility SmallRoot = unionF[rIdx1].value->getNenAbility();
+        unionF[rIdx1].value->getNenAbility() = SmallRoot-BigRoot;
         unionF[rIdx1].parent = rIdx2;
         unionF[rIdx1].value->setFights(unionF[rIdx1].value->getFights() - unionF[rIdx2].value->getFights());
-        unionF[rIdx1].nextChrono = unionF[rIdx2].lastChrono;
-        unionF[rIdx2].lastChrono = unionF[rIdx1].lastChrono;
         unionF[rIdx2].size += unionF[rIdx1].size;
+        unionF[rIdx2].experience+= unionF[rIdx1].experience;
     }
 }
 
 template <class T>
 int Union<T>::fightsHad(int idx) {
-    int sum = 0;
-    while(unionF[idx].parent != idx) {
-        sum+=unionF[idx].value->getFights();
-        idx = unionF[idx].parent;
-    }
-    sum+=unionF[idx].value->getFights();
-    return sum;
+    int p = find(idx);
+    return unionF[p].value->getFights() + unionF[idx].value->getFights();
+}
+template<class T>
+int Union<T>::exp(int idx) {
+    int p = find(idx);
+    return unionF[p].experience ;
+}
+template<class T>
+
+NenAbility Union<T>::ability(int idx) {
+    int p = find(idx);
+    return unionF[p].value->getNenAbility()+ unionF[idx].value->getNenAbility();
 }
 
 #endif //UNION_H

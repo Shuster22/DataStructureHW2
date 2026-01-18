@@ -125,19 +125,19 @@ public:
     }
 
     // return a pointer to the relevant slot if available, nullptr o.w
-    V* find(const K& key) {
+    V find(const K& key) {
         int index = h1(key);
         int step = h2(key);
 
         for (int i = 0; i < capacity; i++) {
             int current = (index + i * step) % capacity;
 
-            if (table[current].status == EMPTY) return nullptr;
+            if (table[current].status == EMPTY) throw StatusType::FAILURE;
             if (table[current].status == OCCUPIED && table[current].key == key) {
                 return &(table[current].value);
             }
         }
-        return nullptr;
+        return V();
     }
 
     // according to a certain key mark a slot as deleted
