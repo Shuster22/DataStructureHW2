@@ -11,11 +11,10 @@ class Squad {
     int id;
     int uHeadIdx; // union Head Index
 public:
-    explicit Squad(int id) : id(id) , uHeadIdx(-1){}
+    int totalAura;
+    explicit Squad(int id) : id(id) , uHeadIdx(-1), totalAura(0){}
     int getUnionHead();
     void setUnionHead(int uHead);
 };
-
-
 
 #endif //SQUAD_H
