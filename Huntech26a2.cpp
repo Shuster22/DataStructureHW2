@@ -210,6 +210,74 @@ output_t<NenAbility> Huntech::get_partial_nen_ability(int hunterId) {
     return output_t<NenAbility>(ability);
 }
 
+
+
 StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {
-    return StatusType::FAILURE;
+
+    int squadId1 = forcingSquadId;
+    int squadId2 = forcedSquadId;
+    if (squadId1 <= 0 || squadId2 <= 0 || squadId1 == squadId2)
+        return StatusType::INVALID_INPUT;
+
+    int effective_aura_1, effective_aura_2;
+
+    try {
+        Squad& squad1 = squadsTree.search(squadId1);
+        Squad& squad2 = squadsTree.search(squadId2);
+
+
+        int root_1 = squad1.getUnionHead();
+        int root_2 = squad2.getUnionHead();
+
+        // one of the squads is empty
+        if (root_1 == -1 )
+            return (StatusType::FAILURE);
+
+        int Aura_2 = 0; // in case root_2 == -1
+        if (root_2 != -1 ) {
+            int exp_1 = huntersUnion.get_exp(root_1);
+            int exp_2 = huntersUnion.get_exp(root_2);
+
+            NenAbility ab_1 = huntersUnion.ability(root_1);
+            NenAbility ab_2 = huntersUnion.ability(root_2);
+
+            // get aura
+            int Aura_1 = squad1.totalAura;
+            Aura_2 = squad2.totalAura;
+
+            if (exp_1 + Aura_1 + ab_1.getEffectiveNenAbility() >
+                exp_2 + Aura_2 + ab_2.getEffectiveNenAbility()) {
+                huntersUnion.combine(root_2, root_1);
+                squad1.totalAura += squad2.totalAura;
+                squad1.totalNenAbility += squad2.totalNenAbility;
+
+                // update squad1 aura in squadsAuraTree
+                AuraKey key1(Aura_1, squadId1);
+                squadsAuraTree.del(key1);
+                AuraKey newKey1(squad1.totalAura, squadId1);
+                squadsAuraTree.insert(newKey1, make_unique<Squad>(squadId1));
+
+
+                return (StatusType::SUCCESS);
+                }
+        }
+
+        // remove squad2 from squadsAuraTree and squadsTree
+        AuraKey key2(Aura_2, squadId2);
+        squadsAuraTree.del(key2);
+        squadsTree.del(squadId2);
+
+    return (StatusType::SUCCESS);
+
+
+    }
+    catch (bad_alloc& e) {
+        return (StatusType::ALLOCATION_ERROR);
+    }
+    catch(...) {
+        return (StatusType::FAILURE);
+    }
+
 }
+
+
