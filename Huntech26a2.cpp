@@ -5,6 +5,7 @@
 
 
 Huntech::Huntech::Huntech() {
+
 }
 
 Huntech::~Huntech() {
@@ -87,6 +88,107 @@ StatusType Huntech::add_hunter(int hunterId,
 }
 
 output_t<int> Huntech::squad_duel(int squadId1, int squadId2) {
+
+    if (squadId1 <= 0 || squadId2 <= 0 || squadId1 == squadId2)
+        return output_t<int>(StatusType::INVALID_INPUT);
+
+    int effective_aura_1, effective_aura_2;
+
+    try {
+        Squad& squad1 = squadsTree.search(squadId1);
+        Squad& squad2 = squadsTree.search(squadId2);
+
+
+        int root_1 = squad1.getUnionHead();
+        int root_2 = squad2.getUnionHead();
+
+        // one of the squads is empty
+        if (root_1 == -1 || root_2 == -1)
+            return output_t<int>(StatusType::FAILURE);
+
+        int exp_1 = huntersUnion.get_exp(root_1);
+        int exp_2 = huntersUnion.get_exp(root_2);
+
+        NenAbility ab_1 = huntersUnion.ability(root_1);
+        NenAbility ab_2 = huntersUnion.ability(root_2);
+
+        // get aura
+        int Aura_1 = squad1.totalAura;
+        int Aura_2 = squad2.totalAura;
+
+        effective_aura_1 = exp_1 + Aura_1;
+        effective_aura_2 = exp_2 + Aura_2;
+
+        if(effective_aura_1 > effective_aura_2) {
+            huntersUnion.add_exp(root_1,3);
+            return output_t<int>(1);
+
+        }
+        if(effective_aura_2 > effective_aura_1) {
+            huntersUnion.add_exp(root_2,3);
+            return output_t<int>(2);
+        }
+
+        if(ab_1 > ab_2) {
+            huntersUnion.add_exp(root_1,3);
+            return output_t<int>(3);
+        }
+
+         if(ab_2 > ab_1) {
+            huntersUnion.add_exp(root_2,3);
+            return output_t<int>(4);
+        }
+
+        // draw
+        huntersUnion.add_exp(root_1,1);
+        huntersUnion.add_exp(root_2,1);
+        return output_t<int>(0);
+    }
+    catch(...) {
+        return output_t<int>(StatusType::FAILURE);
+    }
+
+    }
+
+
+Squad& Huntech::find_winner_squad(int squadId1, int squadId2) {
+    int effective_aura_1, effective_aura_2;
+
+    Squad& squad1 = squadsTree.search(squadId1);
+    Squad& squad2 = squadsTree.search(squadId1);
+
+    int root_1 = squad1.getUnionHead();
+    int root_2 = squad2.getUnionHead();
+
+    int exp_1 = huntersUnion.exp(root_1);
+    int exp_2 = huntersUnion.exp(root_2);
+
+    int ab_1 = huntersUnion.ability(root_1).getEffectiveNenAbility();
+    int ab_2 = huntersUnion.ability(root_2).getEffectiveNenAbility();
+
+    // get aura
+    int Aura_1 = squad1.totalAura;
+    int Aura_2 = squad2.totalAura;
+
+    effective_aura_1 = exp_1 + Aura_1;
+    effective_aura_2 = exp_2 + Aura_2;
+    if(effective_aura_1 > effective_aura_2) {
+        Squad& winner = squad1;
+    }
+    else if(effective_aura_2 > effective_aura_1) {
+        Squad& winner= squad2;
+    }
+    else {
+        if(ab_1 > ab_2) {
+            Squad& winner = squad1;
+        }
+        else if(ab_2 > ab_1) {
+            Squad& winner = squad2;
+        }
+        else {
+            return output_t<int>(0); // draw
+        }
+    }
 
     return 0;
 }

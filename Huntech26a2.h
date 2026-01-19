@@ -55,7 +55,7 @@ private:
     AvlTree<int, unique_ptr<Squad>> squadsTree;
     AvlTree<AuraKey, unique_ptr<Squad>> squadsAuraTree;
 
-
+    Squad& find_winner_squad(int squadId1, int squadId2);
 public:
     // <DO-NOT-MODIFY> {
 

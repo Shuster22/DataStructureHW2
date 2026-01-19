@@ -15,7 +15,9 @@ public:
     int makeSet(T value);
     int find(int idx);
     int fightsHad(int idx);
-    int exp(int idx);
+    int get_exp(int idx);
+    void add_exp(int idx, int exp);
+
     NenAbility ability(int idx);
     void combine(int idx1 , int idx2);
 };
@@ -92,12 +94,17 @@ int Union<T>::fightsHad(int idx) {
     return unionF[p].value->getFights() + unionF[idx].value->getFights();
 }
 template<class T>
-int Union<T>::exp(int idx) {
+int Union<T>::get_exp(int idx) {
     int p = find(idx);
     return unionF[p].experience ;
 }
-template<class T>
 
+template<class T>
+void Union<T>::add_exp(int idx, int exp) {
+    unionF[idx].experience += exp ;
+}
+
+template<class T>
 NenAbility Union<T>::ability(int idx) {
     int p = find(idx);
     return unionF[p].value->getNenAbility()+ unionF[idx].value->getNenAbility();
