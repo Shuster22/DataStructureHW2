@@ -71,20 +71,23 @@ void Union<T>::combine(int idx1 , int idx2) {
         NenAbility BigRoot = unionF[rIdx1].value->getNenAbility();
         NenAbility SmallRoot = unionF[rIdx2].value->getNenAbility();
         unionF[rIdx2].value->getNenAbility() = SmallRoot-BigRoot;
-        unionF[rIdx2].parent = rIdx1;
+        ;
         unionF[rIdx2].value->setFights(unionF[rIdx2].value->getFights() - unionF[rIdx1].value->getFights());
         unionF[rIdx1].size += unionF[rIdx2].size;
         unionF[rIdx1].experience+= unionF[rIdx2].experience;
+        unionF[rIdx2].parent = rIdx1;
 
     }
     else {
         NenAbility BigRoot = unionF[rIdx2].value->getNenAbility();
         NenAbility SmallRoot = unionF[rIdx1].value->getNenAbility();
         unionF[rIdx1].value->getNenAbility() = SmallRoot-BigRoot;
-        unionF[rIdx1].parent = rIdx2;
+
         unionF[rIdx1].value->setFights(unionF[rIdx1].value->getFights() - unionF[rIdx2].value->getFights());
+
         unionF[rIdx2].size += unionF[rIdx1].size;
         unionF[rIdx2].experience+= unionF[rIdx1].experience;
+        unionF[rIdx1].parent = rIdx2;
     }
 }
 

@@ -132,9 +132,9 @@ public:
         for (int i = 0; i < capacity; i++) {
             int current = (index + i * step) % capacity;
 
-            if (table[current].status == EMPTY) throw StatusType::FAILURE;
+            if (table[current].status == EMPTY) return V();
             if (table[current].status == OCCUPIED && table[current].key == key) {
-                return &(table[current].value);
+                return (table[current].value);
             }
         }
         return V();

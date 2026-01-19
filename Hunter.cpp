@@ -12,6 +12,3 @@ void Hunter::setFights(int fights) {
 NenAbility& Hunter::getNenAbility() {
     return ability;
 }
-const NenAbility& Hunter::getNenAbility() const {
-    return ability;
-}

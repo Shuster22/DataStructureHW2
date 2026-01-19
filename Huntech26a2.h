@@ -28,6 +28,11 @@ private:
         int aura;
         int id;
 
+        AuraKey() : aura(0), id(0) {}
+
+        AuraKey(int a, int id) : aura(a), id(id) {}
+
+
         // The AVL tree uses this to decide which squad comes "first" (Rank 1)
         bool operator<(const AuraKey& other) const {
             if (this->aura != other.aura) {

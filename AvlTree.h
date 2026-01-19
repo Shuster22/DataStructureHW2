@@ -53,7 +53,7 @@ public:
     bool isEmpty();
     void insert(K id, T value);
     void del(const K id);
-    typename T::element_type& search(const K id);
+    auto& search(const K id);
     void rebalance(Node<K, T>* suspect);
     T get_ith_element(int i);
 };
@@ -77,7 +77,7 @@ Node<K, T>* AvlTree<K, T>::searchNode(const K id) {
 }
 
 template <class K, class T>
-typename T::element_type& AvlTree<K, T>::search(const K id) {
+auto& AvlTree<K, T>::search(const K id) {
     auto temp = root.get();
     while (temp) {
         if (temp->id == id) return *(temp->value);
@@ -87,10 +87,6 @@ typename T::element_type& AvlTree<K, T>::search(const K id) {
     throw StatusType::FAILURE;
 }
 
-template <class K, class T>
-bool AvlTree<K, T>::isEmpty() {
-    return root == nullptr;
-}
 
 template <class K, class T>
 void AvlTree<K, T>::insert(K id, T value) {
