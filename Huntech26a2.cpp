@@ -4,13 +4,9 @@
 #include "Huntech26a2.h"
 
 
-Huntech::Huntech::Huntech() {
+Huntech::Huntech::Huntech()  = default;
 
-}
-
-Huntech::~Huntech() {
-
-}
+Huntech::~Huntech() = default;
 
 StatusType Huntech::add_squad(int squadId) {
     if(squadId <= 0) return StatusType::INVALID_INPUT;
@@ -18,10 +14,10 @@ StatusType Huntech::add_squad(int squadId) {
 
         squadsTree.insert(squadId, make_unique<Squad>(squadId));
         AuraKey key(0, squadId);
-        squadsAuraTree.insert(key, make_unique<Squad>(squadId));
+        squadsAuraTree.insert(key, &squadsTree.search(squadId));
 
     }
-    catch(bad_alloc& e) {
+    catch(bad_alloc&) {
         return StatusType::ALLOCATION_ERROR;
     }
     catch(StatusType e) {
@@ -38,7 +34,7 @@ StatusType Huntech::remove_squad(int squadId) {
         squadsAuraTree.del(key);
         squadsTree.del(squadId);
     }
-    catch(bad_alloc& e) {
+    catch(bad_alloc&) {
         return StatusType::ALLOCATION_ERROR;
     }
     catch(StatusType e) {
@@ -67,7 +63,7 @@ StatusType Huntech::add_hunter(int hunterId,
         AuraKey key(totalAura, squadId);
         squadsAuraTree.del(key);
         AuraKey newKey(squad.totalAura, squadId);
-        squadsAuraTree.insert(newKey, make_unique<Squad>(squadId));
+        squadsAuraTree.insert(newKey, &squad);
 
         int newIdx = huntersUnion.makeSet(Hunter(hunterId ,nenType,aura,fightsHad));
         hashTable.insert(hunterId,newIdx); // save hunter id, Union Index
@@ -78,7 +74,7 @@ StatusType Huntech::add_hunter(int hunterId,
             squad.setUnionHead(huntersUnion.find(newIdx)); //set newUnionHead
         }
     }
-    catch(bad_alloc& e) {
+    catch(bad_alloc&) {
         return StatusType::ALLOCATION_ERROR;
     }
     catch(StatusType e) {
@@ -255,7 +251,7 @@ StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {
                 AuraKey key1(Aura_1, squadId1);
                 squadsAuraTree.del(key1);
                 AuraKey newKey1(squad1.totalAura, squadId1);
-                squadsAuraTree.insert(newKey1, make_unique<Squad>(squadId1));
+                squadsAuraTree.insert(newKey1, &squad1);
 
 
                 return (StatusType::SUCCESS);
