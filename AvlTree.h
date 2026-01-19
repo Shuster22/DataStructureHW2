@@ -286,6 +286,7 @@ T AvlTree<K, T>::get_ith(Node<K, T>* node, int i) {
     int leftSize = (node->left) ? node->left->weight : 0;
     if (i == leftSize + 1) return node->value;
     if (i <= leftSize) return get_ith(node->left.get(), i);
+    if( i == node->weight) return node->value;
     return get_ith(node->right.get(), i - leftSize - 1);
 }
 
