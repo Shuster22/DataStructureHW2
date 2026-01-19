@@ -215,8 +215,6 @@ StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {
     if (squadId1 <= 0 || squadId2 <= 0 || squadId1 == squadId2)
         return StatusType::INVALID_INPUT;
 
-    int effective_aura_1, effective_aura_2;
-
     try {
         Squad& squad1 = squadsTree.search(squadId1);
         Squad& squad2 = squadsTree.search(squadId2);
@@ -241,21 +239,21 @@ StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {
             int Aura_1 = squad1.totalAura;
             Aura_2 = squad2.totalAura;
 
-            if (exp_1 + Aura_1 + ab_1.getEffectiveNenAbility() >
-                exp_2 + Aura_2 + ab_2.getEffectiveNenAbility()) {
-                huntersUnion.combine(root_2, root_1);
-                squad1.totalAura += squad2.totalAura;
-                squad1.totalNenAbility += squad2.totalNenAbility;
+            if ((long long)(exp_1 + Aura_1 + ab_1.getEffectiveNenAbility()) <=
+                (long long)(exp_2 + Aura_2 + ab_2.getEffectiveNenAbility())) {
+                return (StatusType::FAILURE);
 
-                // update squad1 aura in squadsAuraTree
-                AuraKey key1(Aura_1, squadId1);
-                squadsAuraTree.del(key1);
-                AuraKey newKey1(squad1.totalAura, squadId1);
-                squadsAuraTree.insert(newKey1, &squad1);
+            }
 
+            huntersUnion.combine(root_2, root_1);
+            squad1.totalAura += squad2.totalAura;
+            squad1.totalNenAbility += squad2.totalNenAbility;
 
-                return (StatusType::SUCCESS);
-                }
+            // update squad1 aura in squadsAuraTree
+            AuraKey key1(Aura_1, squadId1);
+            squadsAuraTree.del(key1);
+            AuraKey newKey1(squad1.totalAura, squadId1);
+            squadsAuraTree.insert(newKey1, &squad1);
         }
 
         // remove squad2 from squadsAuraTree and squadsTree
@@ -263,11 +261,11 @@ StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {
         squadsAuraTree.del(key2);
         squadsTree.del(squadId2);
 
-    return (StatusType::SUCCESS);
+        return (StatusType::SUCCESS);
 
 
     }
-    catch (bad_alloc& e) {
+    catch (bad_alloc&) {
         return (StatusType::ALLOCATION_ERROR);
     }
     catch(...) {
