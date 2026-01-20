@@ -132,7 +132,7 @@ public:
         for (int i = 0; i < capacity; i++) {
             int current = (index + i * step) % capacity;
 
-            if (table[current].status == EMPTY) return V();
+            if (table[current].status == EMPTY) return -1;
             if (table[current].status == OCCUPIED && table[current].key == key) {
                 return (table[current].value);
             }

@@ -15,11 +15,13 @@ public:
     int makeSet(T value);
     int find(int idx);
     int fightsHad(int idx);
+    void addFight(int idx1,int idx2);
     int get_exp(int idx);
     void add_exp(int idx, int exp);
-
+    void kill(int idx);
+    bool is_alive(int idx);
     NenAbility ability(int idx);
-    void combine(int idx1 , int idx2);
+    void combine(int idx1 , int idx2,int order);
 };
 
 
@@ -31,6 +33,8 @@ int Union<T>::makeSet(T value) {
 
 template <class T>
 int Union<T>::find(int idx) {
+
+    if(unionF[idx].parent == idx) return idx;
     int next = idx; //given index
     int tempP = 0; //parent
     int fights = 0;
@@ -63,25 +67,40 @@ int Union<T>::find(int idx) {
 }
 
 template <class T>
-void Union<T>::combine(int idx1 , int idx2) {
+void Union<T>::combine(int idx1 , int idx2,int order) {
     int rIdx1 = find(idx1);
     int rIdx2 = find(idx2);
     if(rIdx1 == rIdx2) throw StatusType::FAILURE;
     else if(unionF[rIdx1].size >= unionF[rIdx2].size) {
-        NenAbility BigRoot = unionF[rIdx1].value->getNenAbility();
-        NenAbility SmallRoot = unionF[rIdx2].value->getNenAbility();
-        unionF[rIdx2].value->getNenAbility() = SmallRoot-BigRoot;
-        ;
+        NenAbility bigRoot = unionF[rIdx1].value->getNenAbility();
+        NenAbility smallRoot = unionF[rIdx2].value->getNenAbility();
+        if(order == 0) {
+            unionF[rIdx2].value->getNenAbility() = smallRoot-bigRoot;
+            unionF[rIdx1].value->getNenAbility() = bigRoot+ smallRoot;
+        }
+        else {
+            unionF[rIdx1].value->getNenAbility() = smallRoot-bigRoot;
+            unionF[rIdx2].value->getNenAbility() = bigRoot+ smallRoot;
+        }
+
         unionF[rIdx2].value->setFights(unionF[rIdx2].value->getFights() - unionF[rIdx1].value->getFights());
+
         unionF[rIdx1].size += unionF[rIdx2].size;
         unionF[rIdx1].experience+= unionF[rIdx2].experience;
         unionF[rIdx2].parent = rIdx1;
 
     }
     else {
-        NenAbility BigRoot = unionF[rIdx2].value->getNenAbility();
-        NenAbility SmallRoot = unionF[rIdx1].value->getNenAbility();
-        unionF[rIdx1].value->getNenAbility() = SmallRoot-BigRoot;
+        NenAbility bigRoot = unionF[rIdx2].value->getNenAbility();
+        NenAbility smallRoot = unionF[rIdx1].value->getNenAbility();
+        if(order == 0) {
+            unionF[rIdx1].value->getNenAbility() = smallRoot-bigRoot;
+            unionF[rIdx2].value->getNenAbility() = bigRoot+ smallRoot;
+        }
+        else {
+            unionF[rIdx2].value->getNenAbility() = smallRoot- bigRoot;
+            unionF[rIdx1].value->getNenAbility() = bigRoot+ smallRoot;
+        }
 
         unionF[rIdx1].value->setFights(unionF[rIdx1].value->getFights() - unionF[rIdx2].value->getFights());
 
@@ -94,6 +113,7 @@ void Union<T>::combine(int idx1 , int idx2) {
 template <class T>
 int Union<T>::fightsHad(int idx) {
     int p = find(idx);
+    if(p == idx) return unionF[p].value->getFights();
     return unionF[p].value->getFights() + unionF[idx].value->getFights();
 }
 template<class T>
@@ -110,7 +130,22 @@ void Union<T>::add_exp(int idx, int exp) {
 template<class T>
 NenAbility Union<T>::ability(int idx) {
     int p = find(idx);
+    if(p == idx) return unionF[p].value->getNenAbility();
     return unionF[p].value->getNenAbility()+ unionF[idx].value->getNenAbility();
 }
-
+template<class T>
+void Union<T>::kill(int idx) {
+    if(idx == -1) throw StatusType::FAILURE;
+    unionF[idx].value->setAlive(false);
+}
+template<class T>
+bool Union<T>::is_alive(int idx) {
+    int p = find(idx);
+    return unionF[p].value->isAlive();
+}
+template<class T>
+void Union<T>::addFight(int idx1, int idx2) {
+    unionF[idx1].value->setFights(unionF[idx1].value->getFights()+1);
+    unionF[idx2].value->setFights(unionF[idx2].value->getFights()+1);
+}
 #endif //UNION_H

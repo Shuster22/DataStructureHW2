@@ -12,3 +12,9 @@ void Hunter::setFights(int fights) {
 NenAbility& Hunter::getNenAbility() {
     return ability;
 }
+bool Hunter::isAlive() const {
+    return alive;
+}
+void Hunter::setAlive(bool value) {
+    alive = value;
+}

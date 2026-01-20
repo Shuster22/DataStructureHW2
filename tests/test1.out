@@ -147,7 +147,7 @@ addHunter: SUCCESS
 getIthCollectiveAuraSquad: SUCCESS, 35
 addSquad: SUCCESS
 getHunterFightsNumber: SUCCESS, 2
-addSquad: SUCCESS
+addSquad: SUC   CESS
 getHunterFightsNumber: SUCCESS, 5
 getHunterFightsNumber: SUCCESS, 2
 getHunterFightsNumber: SUCCESS, 7
