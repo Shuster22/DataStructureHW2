@@ -197,7 +197,7 @@ output_t<int> Huntech::get_squad_experience(int squadId) {
     try {
         Squad& squad = squadsTree.search(squadId);
         int head = squad.getUnionHead();
-        if(head == -1) return output_t<int>(StatusType::FAILURE);
+        if(head == -1) return output_t<int>(0);
         exp = huntersUnion.get_exp(head);
     }
     catch(bad_alloc&) {
@@ -210,7 +210,7 @@ output_t<int> Huntech::get_squad_experience(int squadId) {
 }
 
 output_t<int> Huntech::get_ith_collective_aura_squad(int i) {
-    if(i <= 0) return output_t<int>(StatusType::INVALID_INPUT);
+    if(i < 0) return output_t<int>(StatusType::FAILURE);
     try {
         AuraKey key = squadsAuraTree.get_ith_id(i);
         return output_t<int>(key.id);
