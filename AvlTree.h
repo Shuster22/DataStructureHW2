@@ -2,7 +2,6 @@
 #define AVL_TREE_H
 
 #include <memory>
-// #include "wet1util.h"
 
 using namespace std;
 
@@ -43,6 +42,7 @@ class AvlTree {
                  Node<K, T>* oldSon,
                  unique_ptr<Node<K, T>> newSon);
     T get_ith(Node<K, T>* node, int i);
+    K get_ith_id(Node<K, T>* node, int i);
 
     unique_ptr<Node<K, T>>& link(Node<K, T>* n);
 
@@ -56,6 +56,7 @@ public:
     auto& search(const K id);
     void rebalance(Node<K, T>* suspect);
     T get_ith_element(int i);
+    K get_ith_id(int i);
 };
 
 template <class K, class T>
@@ -87,7 +88,6 @@ auto& AvlTree<K, T>::search(const K id) {
     throw StatusType::FAILURE;
 }
 
-
 template <class K, class T>
 void AvlTree<K, T>::insert(K id, T value) {
     if (!root) {
@@ -101,15 +101,13 @@ void AvlTree<K, T>::insert(K id, T value) {
         }
         if (id > temp->id) {
             if (!temp->right) {
-                temp->right = make_unique<Node<K, T>>(move(id), move(value),
-                temp);
+                temp->right = make_unique<Node<K, T>>(move(id), move(value), temp);
                 break;
             }
             temp = temp->right.get();
         } else {
             if (!temp->left) {
-                temp->left = make_unique<Node<K, T>>(move(id), move(value),
-                temp);
+                temp->left = make_unique<Node<K, T>>(move(id), move(value), temp);
                 break;
             }
             temp = temp->left.get();
@@ -139,9 +137,9 @@ Node<K, T>* AvlTree<K, T>::RR(Node<K, T>* oldRoot) {
     auto parent = oldRoot->parent;
 
     auto& oldLink = link(oldRoot);
-    unique_ptr<Node<K, T>> A = std::move(oldLink);          // oldRoot
-    unique_ptr<Node<K, T>> B = std::move(A->right);         // newRoot
-    unique_ptr<Node<K, T>> b = std::move(B->left);          // B.left subtree
+    unique_ptr<Node<K, T>> A = std::move(oldLink);
+    unique_ptr<Node<K, T>> B = std::move(A->right);
+    unique_ptr<Node<K, T>> b = std::move(B->left);
 
     B->left = std::move(A);
     B->left->parent = B.get();
@@ -162,9 +160,9 @@ Node<K, T>* AvlTree<K, T>::LL(Node<K, T>* d) {
     auto parent = d->parent;
 
     auto& oldLink = link(d);
-    unique_ptr<Node<K, T>> A = std::move(oldLink);          // d
-    unique_ptr<Node<K, T>> B = std::move(A->left);          // b
-    unique_ptr<Node<K, T>> c = std::move(B->right);         // c
+    unique_ptr<Node<K, T>> A = std::move(oldLink);
+    unique_ptr<Node<K, T>> B = std::move(A->left);
+    unique_ptr<Node<K, T>> c = std::move(B->right);
 
     B->right = std::move(A);
     B->right->parent = B.get();
@@ -245,7 +243,6 @@ void AvlTree<K, T>::del(const K targetId) {
         nodeToStartRebalanceFrom = parent;
     }
     else {
-        // Find successor (by link)
         unique_ptr<Node<K, T>>* succLinkPtr = &targetLink->right;
         Node<K, T>* succParent = target;
         while ((*succLinkPtr)->left) {
@@ -253,8 +250,7 @@ void AvlTree<K, T>::del(const K targetId) {
             succLinkPtr = &((*succLinkPtr)->left);
         }
 
-        unique_ptr<Node<K, T>> succ = std::move(*succLinkPtr);          // successor node
-        // Disconnect successor from its old place
+        unique_ptr<Node<K, T>> succ = std::move(*succLinkPtr);
         *succLinkPtr = std::move(succ->right);
         if (*succLinkPtr) (*succLinkPtr)->parent = succParent;
 
@@ -264,14 +260,12 @@ void AvlTree<K, T>::del(const K targetId) {
             nodeToStartRebalanceFrom = succ.get();
         }
 
-        // Move target's children under successor
         succ->left = std::move(targetLink->left);
         if (succ->left) succ->left->parent = succ.get();
 
         succ->right = std::move(targetLink->right);
         if (succ->right) succ->right->parent = succ.get();
 
-        // Place successor where target was
         succ->parent = parent;
         targetLink = std::move(succ);
 
@@ -286,8 +280,15 @@ T AvlTree<K, T>::get_ith(Node<K, T>* node, int i) {
     int leftSize = (node->left) ? node->left->weight : 0;
     if (i == leftSize + 1) return node->value;
     if (i <= leftSize) return get_ith(node->left.get(), i);
-    if( i == node->weight) return node->value;
     return get_ith(node->right.get(), i - leftSize - 1);
+}
+
+template <class K, class T>
+K AvlTree<K, T>::get_ith_id(Node<K, T>* node, int i) {
+    int leftSize = (node->left) ? node->left->weight : 0;
+    if (i == leftSize + 1) return node->id;
+    if (i <= leftSize) return get_ith_id(node->left.get(), i);
+    return get_ith_id(node->right.get(), i - leftSize - 1);
 }
 
 template <class K, class T>
@@ -298,5 +299,12 @@ T AvlTree<K, T>::get_ith_element(int i) {
     return get_ith(root.get(), i);
 }
 
-#endif
+template <class K, class T>
+K AvlTree<K, T>::get_ith_id(int i) {
+    if (!root || i < 1 || i > root->weight) {
+        throw StatusType::FAILURE;
+    }
+    return get_ith_id(root.get(), i);
+}
 
+#endif

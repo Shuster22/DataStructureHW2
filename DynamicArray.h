@@ -10,6 +10,8 @@ struct ANode {
     int parent;
     int size;
     int experience;
+    NenAbility selfNen;
+    NenAbility groupNen;
     ANode() : value(nullptr) , parent(-1) ,size(0) ,experience(0){}
 };
 
@@ -33,6 +35,8 @@ void DynamicArray<T>::reserve() {
         temp[i].parent = head[i].parent;
         temp[i].size = head[i].size;
         temp[i].experience = head[i].experience;
+        temp[i].selfNen = head[i].selfNen;
+        temp[i].groupNen = head[i].groupNen;
     }
     head = std::move(temp);
 }

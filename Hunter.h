@@ -13,8 +13,8 @@ public:
     Hunter(int id , const NenAbility& hAbility ,int aura, int fightsHad) : id(id) ,
     ability(hAbility) ,aura(aura), fightsHad(fightsHad) ,alive(true) {}
     int getFights();
-    void setFights(int fights);
     NenAbility& getNenAbility();
+    void setFights(int fights);
     bool isAlive() const;
     void setAlive(bool value);
 };

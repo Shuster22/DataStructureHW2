@@ -45,7 +45,7 @@ squadDuel: SUCCESS, 1
 addSquad: SUCCESS
 squadDuel: SUCCESS, 1
 forceJoin: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 81
+getIthCollectiveAuraSquad: SUCCESS, 7
 addHunter: FAILURE
 getHunterFightsNumber: SUCCESS, 1
 addSquad: SUCCESS
@@ -63,7 +63,7 @@ getHunterFightsNumber: SUCCESS, 5
 addSquad: FAILURE
 removeSquad: FAILURE
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 23
+getIthCollectiveAuraSquad: SUCCESS, 8
 forceJoin: SUCCESS
 getPartialNenAbility: INVALID_INPUT
 squadDuel: SUCCESS, 1
@@ -91,14 +91,14 @@ squadDuel: FAILURE
 getHunterFightsNumber: SUCCESS, 1
 forceJoin: SUCCESS
 addSquad: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 81
+getIthCollectiveAuraSquad: SUCCESS, 7
 squadDuel: FAILURE
 addHunter: SUCCESS
 getPartialNenAbility: INVALID_INPUT
 getPartialNenAbility: FAILURE
 squadDuel: FAILURE
 squadDuel: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 36
+getIthCollectiveAuraSquad: SUCCESS, 68
 getHunterFightsNumber: SUCCESS, 4
 forceJoin: FAILURE
 addHunter: FAILURE
@@ -115,16 +115,16 @@ removeSquad: FAILURE
 forceJoin: FAILURE
 addSquad: FAILURE
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Invalid NenAbility
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:0, Specialist:1
 addHunter: SUCCESS
 forceJoin: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:2, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:1, Specialist:0
 squadDuel: SUCCESS, 1
 addHunter: FAILURE
 forceJoin: FAILURE
 removeSquad: FAILURE
 addHunter: FAILURE
-getPartialNenAbility: SUCCESS, Invalid NenAbility
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:1, Specialist:0
 squadDuel: FAILURE
 squadDuel: FAILURE
 addSquad: SUCCESS
@@ -144,7 +144,7 @@ getIthCollectiveAuraSquad: FAILURE
 getHunterFightsNumber: SUCCESS, 5
 addSquad: SUCCESS
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 0
+getIthCollectiveAuraSquad: SUCCESS, 35
 addSquad: SUCCESS
 getHunterFightsNumber: SUCCESS, 2
 addSquad: SUCCESS
@@ -155,7 +155,7 @@ addHunter: SUCCESS
 addHunter: SUCCESS
 addSquad: SUCCESS
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Invalid NenAbility
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:0, Specialist:0
 addHunter: FAILURE
 addHunter: SUCCESS
 addSquad: SUCCESS
@@ -164,7 +164,7 @@ getHunterFightsNumber: FAILURE
 addHunter: SUCCESS
 removeSquad: SUCCESS
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:2, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:2, Manipulator:3, Specialist:0
 addHunter: FAILURE
 addSquad: SUCCESS
 removeSquad: FAILURE
@@ -191,7 +191,7 @@ addHunter: SUCCESS
 addHunter: SUCCESS
 getPartialNenAbility: FAILURE
 removeSquad: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 0
+getIthCollectiveAuraSquad: SUCCESS, 3
 addHunter: SUCCESS
 addHunter: FAILURE
 addHunter: SUCCESS
@@ -211,7 +211,7 @@ getIthCollectiveAuraSquad: FAILURE
 addSquad: SUCCESS
 squadDuel: FAILURE
 squadDuel: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:2, Conjurer:0, Manipulator:0, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:2, Manipulator:1, Specialist:0
 removeSquad: INVALID_INPUT
 removeSquad: SUCCESS
 addSquad: SUCCESS
@@ -221,7 +221,7 @@ removeSquad: SUCCESS
 removeSquad: FAILURE
 addHunter: SUCCESS
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 24
+getIthCollectiveAuraSquad: SUCCESS, 75
 squadDuel: FAILURE
 squadDuel: FAILURE
 addHunter: SUCCESS
@@ -240,7 +240,7 @@ addSquad: SUCCESS
 addHunter: SUCCESS
 addSquad: SUCCESS
 squadDuel: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 59
+getIthCollectiveAuraSquad: SUCCESS, 11
 removeSquad: SUCCESS
 addHunter: FAILURE
 getIthCollectiveAuraSquad: FAILURE
@@ -257,7 +257,7 @@ addHunter: SUCCESS
 getHunterFightsNumber: FAILURE
 addHunter: SUCCESS
 getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:0, Specialist:0
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:2, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:2, Specialist:0
 forceJoin: SUCCESS
 getHunterFightsNumber: SUCCESS, 0
 addSquad: SUCCESS
@@ -271,12 +271,12 @@ addHunter: FAILURE
 addSquad: SUCCESS
 addSquad: SUCCESS
 forceJoin: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 0
+getIthCollectiveAuraSquad: SUCCESS, 63
 squadDuel: SUCCESS, 1
 getHunterFightsNumber: FAILURE
 getPartialNenAbility: FAILURE
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 0
+getIthCollectiveAuraSquad: SUCCESS, 63
 getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:0
 addHunter: FAILURE
 removeSquad: SUCCESS
@@ -299,17 +299,17 @@ getPartialNenAbility: FAILURE
 squadDuel: FAILURE
 addHunter: FAILURE
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:2, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:1, Specialist:0
 forceJoin: FAILURE
 addHunter: SUCCESS
 addHunter: SUCCESS
 addSquad: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:1, Conjurer:0, Manipulator:0, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:1, Transmuter:0, Conjurer:2, Manipulator:3, Specialist:0
 getHunterFightsNumber: SUCCESS, 3
 addHunter: FAILURE
 addHunter: FAILURE
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 44
+getIthCollectiveAuraSquad: SUCCESS, 62
 addHunter: FAILURE
 getHunterFightsNumber: SUCCESS, 6
 addHunter: SUCCESS
@@ -324,11 +324,11 @@ addHunter: SUCCESS
 removeSquad: FAILURE
 addHunter: INVALID_INPUT
 getPartialNenAbility: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 140
+getIthCollectiveAuraSquad: SUCCESS, 34
 addHunter: SUCCESS
 squadDuel: INVALID_INPUT
 getPartialNenAbility: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:2
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:1
 forceJoin: FAILURE
 removeSquad: SUCCESS
 addSquad: FAILURE
@@ -342,18 +342,18 @@ squadDuel: SUCCESS, 1
 addHunter: SUCCESS
 forceJoin: FAILURE
 getIthCollectiveAuraSquad: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:1, Transmuter:1, Conjurer:0, Manipulator:1, Specialist:0
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 68
+getIthCollectiveAuraSquad: SUCCESS, 9
 removeSquad: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:0, Specialist:1
+getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:1
 squadDuel: FAILURE
 getPartialNenAbility: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 0
+getIthCollectiveAuraSquad: SUCCESS, 84
 addHunter: SUCCESS
 forceJoin: SUCCESS
 addSquad: SUCCESS
-getPartialNenAbility: SUCCESS, Invalid NenAbility
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:0, Specialist:0
 addHunter: SUCCESS
 getIthCollectiveAuraSquad: FAILURE
 addHunter: FAILURE
@@ -369,13 +369,13 @@ addHunter: FAILURE
 addSquad: SUCCESS
 getPartialNenAbility: INVALID_INPUT
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:0, Conjurer:2, Manipulator:0, Specialist:1
-getPartialNenAbility: SUCCESS, Invalid NenAbility
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:0, Specialist:1
+getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:0, Specialist:0
 getPartialNenAbility: FAILURE
 getHunterFightsNumber: SUCCESS, 2
 addHunter: FAILURE
 forceJoin: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:2, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:2, Specialist:0
 addHunter: SUCCESS
 addHunter: INVALID_INPUT
 forceJoin: FAILURE
@@ -392,14 +392,14 @@ addSquad: SUCCESS
 addHunter: SUCCESS
 addHunter: SUCCESS
 getHunterFightsNumber: SUCCESS, 9
-getIthCollectiveAuraSquad: SUCCESS, 11
+getIthCollectiveAuraSquad: SUCCESS, 87
 removeSquad: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 0
-getPartialNenAbility: SUCCESS, Invalid NenAbility
-getIthCollectiveAuraSquad: SUCCESS, 0
+getIthCollectiveAuraSquad: SUCCESS, 21
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:2, Conjurer:0, Manipulator:0, Specialist:1
+getIthCollectiveAuraSquad: SUCCESS, 72
 addSquad: SUCCESS
 addSquad: SUCCESS
-getPartialNenAbility: SUCCESS, Invalid NenAbility
+getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:0
 addSquad: SUCCESS
 addHunter: SUCCESS
 squadDuel: FAILURE
@@ -425,7 +425,7 @@ getHunterFightsNumber: SUCCESS, 7
 squadDuel: SUCCESS, 3
 addSquad: SUCCESS
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 195
+getIthCollectiveAuraSquad: SUCCESS, 68
 addSquad: SUCCESS
 squadDuel: FAILURE
 forceJoin: FAILURE
@@ -442,9 +442,9 @@ getHunterFightsNumber: FAILURE
 addHunter: SUCCESS
 addHunter: FAILURE
 forceJoin: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 0
+getIthCollectiveAuraSquad: SUCCESS, 19
 forceJoin: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 112
+getIthCollectiveAuraSquad: SUCCESS, 17
 addHunter: SUCCESS
 squadDuel: FAILURE
 addHunter: SUCCESS
@@ -480,7 +480,7 @@ forceJoin: FAILURE
 addHunter: SUCCESS
 addHunter: SUCCESS
 squadDuel: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 188
+getIthCollectiveAuraSquad: SUCCESS, 67
 addSquad: SUCCESS
 getHunterFightsNumber: FAILURE
 addHunter: SUCCESS
@@ -497,7 +497,7 @@ getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:1, 
 addHunter: SUCCESS
 addHunter: FAILURE
 squadDuel: SUCCESS, 1
-getIthCollectiveAuraSquad: SUCCESS, 69
+getIthCollectiveAuraSquad: SUCCESS, 28
 addSquad: FAILURE
 removeSquad: SUCCESS
 addHunter: SUCCESS
@@ -514,8 +514,8 @@ removeSquad: FAILURE
 squadDuel: FAILURE
 addHunter: SUCCESS
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 50
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:1, Transmuter:2, Conjurer:0, Manipulator:1, Specialist:1
+getIthCollectiveAuraSquad: SUCCESS, 4
+getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:2, Conjurer:0, Manipulator:2, Specialist:0
 forceJoin: FAILURE
 getHunterFightsNumber: SUCCESS, 2
 squadDuel: SUCCESS, 1
@@ -544,7 +544,7 @@ addHunter: SUCCESS
 addSquad: SUCCESS
 getHunterFightsNumber: SUCCESS, 8
 getHunterFightsNumber: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:2, Transmuter:1, Conjurer:1, Manipulator:3, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:2, Manipulator:3, Specialist:0
 getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:1, Manipulator:0, Specialist:0
 addHunter: SUCCESS
 forceJoin: INVALID_INPUT
@@ -556,7 +556,7 @@ addHunter: SUCCESS
 addSquad: FAILURE
 squadDuel: FAILURE
 squadDuel: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 0
+getIthCollectiveAuraSquad: SUCCESS, 55
 addHunter: SUCCESS
 addHunter: SUCCESS
 addHunter: FAILURE
@@ -573,16 +573,16 @@ addSquad: SUCCESS
 addHunter: SUCCESS
 addHunter: SUCCESS
 addHunter: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:1, Conjurer:0, Manipulator:0, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:1, Transmuter:1, Conjurer:0, Manipulator:0, Specialist:0
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Invalid NenAbility
-getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:2, Conjurer:2, Manipulator:4, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:1, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:1, Specialist:0
 addHunter: SUCCESS
 addHunter: SUCCESS
 forceJoin: SUCCESS
 addHunter: SUCCESS
 squadDuel: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:1, Transmuter:2, Conjurer:0, Manipulator:3, Specialist:1
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:1, Specialist:0
 addHunter: FAILURE
 addSquad: SUCCESS
 squadDuel: FAILURE
@@ -591,7 +591,7 @@ squadDuel: FAILURE
 removeSquad: FAILURE
 getHunterFightsNumber: SUCCESS, 3
 getHunterFightsNumber: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:0, Specialist:1
 addHunter: SUCCESS
 forceJoin: FAILURE
 addHunter: SUCCESS
@@ -603,8 +603,8 @@ squadDuel: INVALID_INPUT
 addHunter: SUCCESS
 addSquad: FAILURE
 addSquad: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 69
-getIthCollectiveAuraSquad: SUCCESS, 320
+getIthCollectiveAuraSquad: SUCCESS, 4
+getIthCollectiveAuraSquad: SUCCESS, 68
 addHunter: FAILURE
 forceJoin: FAILURE
 getHunterFightsNumber: SUCCESS, 9
@@ -618,7 +618,7 @@ squadDuel: SUCCESS, 3
 addHunter: SUCCESS
 squadDuel: SUCCESS, 1
 forceJoin: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 112
+getIthCollectiveAuraSquad: SUCCESS, 17
 addSquad: SUCCESS
 removeSquad: SUCCESS
 addHunter: SUCCESS
@@ -628,32 +628,32 @@ squadDuel: FAILURE
 getPartialNenAbility: INVALID_INPUT
 addSquad: FAILURE
 getPartialNenAbility: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:1, Conjurer:0, Manipulator:0, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:2, Transmuter:0, Conjurer:2, Manipulator:0, Specialist:1
 getHunterFightsNumber: INVALID_INPUT
 getPartialNenAbility: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 134
+getIthCollectiveAuraSquad: SUCCESS, 19
 addSquad: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 127
+getIthCollectiveAuraSquad: SUCCESS, 72
 addHunter: SUCCESS
 squadDuel: SUCCESS, 1
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:1, Transmuter:1, Conjurer:0, Manipulator:4, Specialist:1
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:2, Specialist:0
 addHunter: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 128
-getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:2, Transmuter:1, Conjurer:2, Manipulator:0, Specialist:0
+getIthCollectiveAuraSquad: SUCCESS, 73
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:1
 removeSquad: SUCCESS
 squadDuel: SUCCESS, 1
 removeSquad: FAILURE
 addHunter: SUCCESS
 getHunterFightsNumber: SUCCESS, 11
-getIthCollectiveAuraSquad: SUCCESS, 128
+getIthCollectiveAuraSquad: SUCCESS, 73
 addHunter: SUCCESS
 addHunter: INVALID_INPUT
 addHunter: SUCCESS
 addSquad: SUCCESS
 squadDuel: SUCCESS, 1
 removeSquad: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 134
+getIthCollectiveAuraSquad: SUCCESS, 19
 addHunter: SUCCESS
 forceJoin: FAILURE
 squadDuel: FAILURE
@@ -665,7 +665,7 @@ addHunter: SUCCESS
 addHunter: FAILURE
 addSquad: FAILURE
 removeSquad: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:0, Transmuter:4, Conjurer:2, Manipulator:0, Specialist:1
 squadDuel: FAILURE
 addSquad: SUCCESS
 squadDuel: FAILURE
@@ -691,7 +691,7 @@ getHunterFightsNumber: INVALID_INPUT
 getHunterFightsNumber: SUCCESS, 1
 addSquad: FAILURE
 forceJoin: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:2, Transmuter:1, Conjurer:1, Manipulator:4, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:0, Transmuter:0, Conjurer:2, Manipulator:3, Specialist:0
 getIthCollectiveAuraSquad: FAILURE
 getPartialNenAbility: FAILURE
 getPartialNenAbility: FAILURE
@@ -704,17 +704,17 @@ squadDuel: FAILURE
 getHunterFightsNumber: FAILURE
 addHunter: SUCCESS
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 69
+getIthCollectiveAuraSquad: SUCCESS, 28
 addSquad: SUCCESS
 addHunter: SUCCESS
 addHunter: SUCCESS
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Invalid NenAbility
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:2, Conjurer:0, Manipulator:0, Specialist:1
 addHunter: SUCCESS
 addHunter: FAILURE
 squadDuel: INVALID_INPUT
 addSquad: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:0, Manipulator:2, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:3, Emitter:2, Transmuter:1, Conjurer:3, Manipulator:5, Specialist:0
 addSquad: INVALID_INPUT
 getPartialNenAbility: FAILURE
 removeSquad: FAILURE
@@ -733,10 +733,10 @@ removeSquad: SUCCESS
 getHunterFightsNumber: FAILURE
 getIthCollectiveAuraSquad: FAILURE
 addSquad: SUCCESS
-getPartialNenAbility: SUCCESS, Invalid NenAbility
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:1, Conjurer:0, Manipulator:0, Specialist:0
 squadDuel: FAILURE
 addHunter: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:0, Conjurer:0, Manipulator:1, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:1, Transmuter:0, Conjurer:0, Manipulator:0, Specialist:0
 forceJoin: SUCCESS
 addHunter: FAILURE
 addSquad: FAILURE
@@ -749,7 +749,7 @@ squadDuel: FAILURE
 addHunter: SUCCESS
 addSquad: FAILURE
 removeSquad: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:0, Conjurer:3, Manipulator:0, Specialist:1
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:0, Conjurer:2, Manipulator:0, Specialist:1
 getIthCollectiveAuraSquad: FAILURE
 removeSquad: FAILURE
 addHunter: SUCCESS
@@ -758,7 +758,7 @@ addHunter: SUCCESS
 addSquad: SUCCESS
 squadDuel: FAILURE
 addHunter: SUCCESS
-getPartialNenAbility: SUCCESS, Enhancer:1, Emitter:1, Transmuter:2, Conjurer:1, Manipulator:2, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:2, Emitter:1, Transmuter:1, Conjurer:2, Manipulator:3, Specialist:0
 getHunterFightsNumber: FAILURE
 addSquad: SUCCESS
 addHunter: SUCCESS
@@ -779,7 +779,7 @@ squadDuel: FAILURE
 getHunterFightsNumber: SUCCESS, 7
 forceJoin: FAILURE
 removeSquad: FAILURE
-getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:2, Transmuter:0, Conjurer:0, Manipulator:4, Specialist:0
+getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:1, Transmuter:0, Conjurer:0, Manipulator:1, Specialist:0
 addHunter: SUCCESS
 addSquad: SUCCESS
 addHunter: SUCCESS
