@@ -71,7 +71,7 @@ StatusType Huntech::add_hunter(int hunterId,
             squad.setUnionHead(newIdx);
         else {
             huntersUnion.combine(uHeadIdx, newIdx, 0);
-            squad.setUnionHead(huntersUnion.find(newIdx));
+
         }
     }
     catch(bad_alloc&) {
@@ -103,8 +103,8 @@ output_t<int> Huntech::squad_duel(int squadId1, int squadId2) {
         int exp_1 = huntersUnion.get_exp(root_1);
         int exp_2 = huntersUnion.get_exp(root_2);
 
-        NenAbility ab_1 = huntersUnion.ability(root_1);
-        NenAbility ab_2 = huntersUnion.ability(root_2);
+        NenAbility ab_1 = huntersUnion.partialAbility(huntersUnion.lastChrono(root_1));
+        NenAbility ab_2 = huntersUnion.partialAbility(huntersUnion.lastChrono(root_2));
 
         int Aura_1 = squad1.totalAura;
         int Aura_2 = squad2.totalAura;
@@ -199,7 +199,7 @@ output_t<NenAbility> Huntech::get_partial_nen_ability(int hunterId) {
         int uIdx = hashTable.find(hunterId);
         if(uIdx == -1) return output_t<NenAbility>(StatusType::FAILURE);
         if(!huntersUnion.is_alive(uIdx)) return output_t<NenAbility>(StatusType::FAILURE);
-        ability = huntersUnion.ability(uIdx);
+        ability = huntersUnion.partialAbility(uIdx);
     }
     catch(bad_alloc&) {
         return output_t<NenAbility>(StatusType::ALLOCATION_ERROR);
@@ -232,8 +232,8 @@ StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {
             int exp_1 = huntersUnion.get_exp(root_1);
             int exp_2 = huntersUnion.get_exp(root_2);
 
-            NenAbility ab_1 = huntersUnion.ability(root_1);
-            NenAbility ab_2 = huntersUnion.ability(root_2);
+            NenAbility ab_1 = huntersUnion.partialAbility(huntersUnion.lastChrono(root_1));
+            NenAbility ab_2 = huntersUnion.partialAbility(huntersUnion.lastChrono(root_2));
 
             if ((long long)(exp_1 + squad1.totalAura + ab_1.getEffectiveNenAbility()) <=
                 (long long)(exp_2 + squad2.totalAura + ab_2.getEffectiveNenAbility())) {

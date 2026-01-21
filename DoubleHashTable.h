@@ -137,7 +137,7 @@ public:
                 return (table[current].value);
             }
         }
-        return V();
+        return -1;
     }
 
     // according to a certain key mark a slot as deleted

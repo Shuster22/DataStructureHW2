@@ -20,7 +20,8 @@ public:
     void add_exp(int idx, int exp);
     void kill(int idx);
     bool is_alive(int idx);
-    NenAbility ability(int idx);
+    int lastChrono(int idx);
+    NenAbility partialAbility(int idx);
     void combine(int idx1 , int idx2,int order);
 };
 
@@ -29,6 +30,7 @@ template <class T>
 int Union<T>::makeSet(T value) {
     int idx = unionF.push_back(move(value));
     unionF[idx].selfNen = unionF[idx].value->getNenAbility();
+    unionF[idx].lastChrono = idx;
     return idx;
 }
 
@@ -75,6 +77,7 @@ void Union<T>::combine(int idx1 , int idx2,int order) {
         unionF[rIdx1].groupNen +=unionF[rIdx2].selfNen;
         unionF[rIdx2].selfNen =unionF[rIdx1].groupNen;
         unionF[rIdx1].groupNen+=unionF[rIdx2].groupNen;
+        unionF[rIdx1].lastChrono = unionF[rIdx2].lastChrono;
 
         unionF[rIdx2].value->setFights(unionF[rIdx2].value->getFights() - unionF[rIdx1].value->getFights());
 
@@ -94,6 +97,7 @@ void Union<T>::combine(int idx1 , int idx2,int order) {
             unionF[rIdx2].groupNen += unionF[rIdx2].selfNen;
             unionF[rIdx1].selfNen = unionF[rIdx1].groupNen;
             unionF[rIdx1].groupNen+= unionF[rIdx2].groupNen;
+            unionF[rIdx2].lastChrono = unionF[rIdx1].lastChrono;
         }
         unionF[rIdx1].value->setFights(unionF[rIdx1].value->getFights() - unionF[rIdx2].value->getFights());
 
@@ -121,7 +125,7 @@ void Union<T>::add_exp(int idx, int exp) {
 }
 
 template<class T>
-NenAbility Union<T>::ability(int idx) {
+NenAbility Union<T>::partialAbility(int idx) {
     int p = find(idx);
     if(p == idx) return unionF[p].selfNen;
     return unionF[p].selfNen + unionF[idx].selfNen;
@@ -140,5 +144,9 @@ template<class T>
 void Union<T>::addFight(int idx1, int idx2) {
     unionF[idx1].value->setFights(unionF[idx1].value->getFights()+1);
     unionF[idx2].value->setFights(unionF[idx2].value->getFights()+1);
+}
+template <class T>
+int Union<T>::lastChrono(int idx) {
+    return unionF[idx].lastChrono;
 }
 #endif //UNION_H
