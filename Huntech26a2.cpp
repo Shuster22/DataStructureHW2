@@ -7,8 +7,16 @@ StatusType Huntech::add_squad(int squadId) {
     if(squadId <= 0) return StatusType::INVALID_INPUT;
     try {
         squadsTree.insert(squadId, make_unique<Squad>(squadId));
-        AuraKey key(0, squadId);
-        squadsAuraTree.insert(key, &squadsTree.search(squadId));
+        try {
+            AuraKey key(0, squadId);
+            squadsAuraTree.insert(key, &squadsTree.search(squadId));
+        }
+        // make sure to rollback if second insertion fails
+        catch(...) {
+            squadsTree.del(squadId);
+            throw;
+        }
+
     }
     catch(bad_alloc&) {
         return StatusType::ALLOCATION_ERROR;
@@ -55,24 +63,47 @@ StatusType Huntech::add_hunter(int hunterId,
         if(hashTable.find(hunterId) != -1) return StatusType::FAILURE;
         Squad& squad = squadsTree.search(squadId);
 
-        int totalAura = squad.totalAura;
-        squad.totalAura += aura;
-        squad.totalNenAbility += nenType.getEffectiveNenAbility();
+        int oldAura = squad.totalAura;
+        int newAura = oldAura + aura;
+        int oldNen = squad.totalNenAbility;
+        int newNen = oldNen + nenType.getEffectiveNenAbility();
 
-        AuraKey key(totalAura, squadId);
-        squadsAuraTree.del(key);
-        AuraKey newKey(squad.totalAura, squadId);
-        squadsAuraTree.insert(newKey, &squad);
+        AuraKey oldKey(oldAura, squadId);
+        AuraKey newKey(newAura, squadId);
 
-        int newIdx = huntersUnion.makeSet(Hunter(hunterId, nenType, aura, fightsHad));
-        hashTable.insert(hunterId, newIdx);
-        int uHeadIdx = squad.getUnionHead();
-        if(uHeadIdx == -1)
-            squad.setUnionHead(newIdx);
-        else {
-            huntersUnion.combine(uHeadIdx, newIdx, 0);
+        squadsAuraTree.del(oldKey);
 
+        try {
+            squadsAuraTree.insert(newKey, &squad);
         }
+        catch (...) {
+            // rollback on failure
+            squadsAuraTree.insert(oldKey, &squad);
+            throw;
+        }
+
+        squad.totalAura = newAura;
+        squad.totalNenAbility = oldNen;
+
+        try {
+            int newIdx = huntersUnion.makeSet(Hunter(hunterId, nenType, aura, fightsHad));
+            hashTable.insert(hunterId, newIdx);
+            int uHeadIdx = squad.getUnionHead();
+            if(uHeadIdx == -1)
+                squad.setUnionHead(newIdx);
+            else {
+                huntersUnion.combine(uHeadIdx, newIdx, 0);
+            }
+        }
+        catch (...) {
+            // rollback on failure
+            squadsAuraTree.del(newKey);
+            squadsAuraTree.insert(oldKey, &squad);
+            squad.totalAura = oldAura;
+            squad.totalNenAbility = oldNen;
+            throw;
+        }
+
     }
     catch(bad_alloc&) {
         return StatusType::ALLOCATION_ERROR;
@@ -240,17 +271,28 @@ StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {
                 return StatusType::FAILURE;
             }
 
-            huntersUnion.combine(root_1, root_2, 1);
-            squad1.setUnionHead(huntersUnion.find(root_1));
+
 
             AuraKey key1(Aura_1, squadId1);
             squadsAuraTree.del(key1);
-
             squad1.totalAura += squad2.totalAura;
             squad1.totalNenAbility += squad2.totalNenAbility;
 
-            AuraKey newKey1(squad1.totalAura, squadId1);
-            squadsAuraTree.insert(newKey1, &squad1);
+            try {
+                AuraKey newKey1(squad1.totalAura, squadId1);
+                squadsAuraTree.insert(newKey1, &squad1);
+            }
+            catch (...) {
+                // rollback on failure
+                squad1.totalAura -= squad2.totalAura;
+                squad1.totalNenAbility -= squad2.totalNenAbility;
+                squadsAuraTree.insert(key1, &squad1);
+                throw;
+            }
+
+
+            huntersUnion.combine(root_1, root_2, 1);
+            squad1.setUnionHead(huntersUnion.find(root_1));
         }
 
         AuraKey key2(squad2.totalAura, squadId2);
