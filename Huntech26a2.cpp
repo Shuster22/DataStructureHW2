@@ -9,7 +9,7 @@ StatusType Huntech::add_squad(int squadId) {
         squadsTree.insert(squadId, make_unique<Squad>(squadId));
         try {
             AuraKey key(0, squadId);
-            squadsAuraTree.insert(key, squadId);
+            squadsAuraTree.insert(key, &squadsTree.search(squadId));
         }
         // make sure to rollback if second insertion fails
         catch(...) {
@@ -74,11 +74,11 @@ StatusType Huntech::add_hunter(int hunterId,
         squadsAuraTree.del(oldKey);
 
         try {
-            squadsAuraTree.insert(newKey, squadId);
+            squadsAuraTree.insert(newKey, &squad);
         }
         catch (...) {
             // rollback on failure
-            squadsAuraTree.insert(oldKey, squadId);
+            squadsAuraTree.insert(oldKey, &squad);
             throw;
         }
 
@@ -98,7 +98,7 @@ StatusType Huntech::add_hunter(int hunterId,
         catch (...) {
             // rollback on failure
             squadsAuraTree.del(newKey);
-            squadsAuraTree.insert(oldKey, squadId);
+            squadsAuraTree.insert(oldKey, &squad);
             squad.totalAura = oldAura;
             squad.totalNenAbility = oldNen;
             throw;
@@ -280,13 +280,13 @@ StatusType Huntech::force_join(int forcingSquadId, int forcedSquadId) {
 
             try {
                 AuraKey newKey1(squad1.totalAura, squadId1);
-                squadsAuraTree.insert(newKey1, squadId1);
+                squadsAuraTree.insert(newKey1, &squad1);
             }
             catch (...) {
                 // rollback on failure
                 squad1.totalAura -= squad2.totalAura;
                 squad1.totalNenAbility -= squad2.totalNenAbility;
-                squadsAuraTree.insert(key1, squadId1);
+                squadsAuraTree.insert(key1, &squad1);
                 throw;
             }
 

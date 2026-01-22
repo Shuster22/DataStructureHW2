@@ -32,7 +32,7 @@ private:
     DoubleHashTable<int, int> hashTable;
     Union<Hunter> huntersUnion;
     AvlTree<int, unique_ptr<Squad>> squadsTree;
-    AvlTree<AuraKey, int> squadsAuraTree;
+    AvlTree<AuraKey, Squad*> squadsAuraTree;
 
     Squad& find_winner_squad(int squadId1, int squadId2);
 
