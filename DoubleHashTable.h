@@ -64,15 +64,23 @@ private:
         int oldCapacity = capacity;
         Entry* oldTable = table;
 
+        table = new Entry[nextPrime(capacity * 2)];
         capacity = nextPrime(capacity * 2);
-        table = new Entry[capacity];
         size = 0;
-
-        for (int i = 0; i < oldCapacity; i++) {
-            if (oldTable[i].status == OCCUPIED) {
-                insert(oldTable[i].key, oldTable[i].value);
+        try {
+            for (int i = 0; i < oldCapacity; i++) {
+                if (oldTable[i].status == OCCUPIED) {
+                    insert(oldTable[i].key, oldTable[i].value);
+                }
             }
         }
+        catch (...) {
+            delete[] table;
+            table = oldTable;
+            capacity = oldCapacity;
+            throw;
+        }
+
         delete[] oldTable;
     }
 
