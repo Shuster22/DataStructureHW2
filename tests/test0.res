@@ -28,7 +28,7 @@ getIthCollectiveAuraSquad: FAILURE
 addHunter: SUCCESS
 addSquad: FAILURE
 squadDuel: SUCCESS, 1
-getIthCollectiveAuraSquad: SUCCESS, 4
+getIthCollectiveAuraSquad: SUCCESS, 2
 getPartialNenAbility: FAILURE
 addSquad: SUCCESS
 addHunter: SUCCESS
@@ -37,12 +37,12 @@ addSquad: FAILURE
 squadDuel: FAILURE
 addHunter: SUCCESS
 addHunter: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 10
+getIthCollectiveAuraSquad: SUCCESS, 5
 squadDuel: SUCCESS, 3
 getHunterFightsNumber: SUCCESS, 9
 addSquad: FAILURE
 forceJoin: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 7
+getIthCollectiveAuraSquad: SUCCESS, 8
 getPartialNenAbility: SUCCESS, Enhancer:0, Emitter:0, Transmuter:0, Conjurer:1, Manipulator:0, Specialist:0
 addSquad: FAILURE
 getPartialNenAbility: FAILURE
@@ -63,12 +63,12 @@ addHunter: SUCCESS
 addHunter: SUCCESS
 squadDuel: SUCCESS, 1
 getHunterFightsNumber: SUCCESS, 11
-getIthCollectiveAuraSquad: SUCCESS, 7
+getIthCollectiveAuraSquad: SUCCESS, 9
 addSquad: SUCCESS
 addSquad: FAILURE
 forceJoin: SUCCESS
 addSquad: SUCCESS
-getIthCollectiveAuraSquad: SUCCESS, 3
+getIthCollectiveAuraSquad: FAILURE
 getIthCollectiveAuraSquad: FAILURE
 addHunter: FAILURE
 removeSquad: SUCCESS
@@ -88,7 +88,7 @@ addHunter: SUCCESS
 squadDuel: FAILURE
 squadDuel: FAILURE
 squadDuel: FAILURE
-getIthCollectiveAuraSquad: SUCCESS, 10
+getIthCollectiveAuraSquad: SUCCESS, 11
 addHunter: SUCCESS
 addHunter: FAILURE
 forceJoin: SUCCESS

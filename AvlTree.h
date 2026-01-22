@@ -79,13 +79,16 @@ Node<K, T>* AvlTree<K, T>::searchNode(const K id) {
 
 template <class K, class T>
 auto& AvlTree<K, T>::search(const K id) {
-    auto temp = root.get();
-    while (temp) {
-        if (temp->id == id) return *(temp->value);
-        else if (id > temp->id) temp = temp->right.get();
-        else temp = temp->left.get();
-    }
-    throw StatusType::FAILURE;
+        auto temp = root.get();
+        while (temp) {
+            if (temp->id == id) {
+                if(!(temp->value)) throw StatusType::FAILURE;
+                return *(temp->value);
+            }
+            else if (id > temp->id) temp = temp->right.get();
+            else temp = temp->left.get();
+        }
+        throw StatusType::FAILURE;
 }
 
 template <class K, class T>

@@ -24,6 +24,30 @@ private:
     int capacity;// always prime
     int size;
 
+
+    DoubleHashTable(const DoubleHashTable&) = delete;
+    DoubleHashTable& operator=(const DoubleHashTable&) = delete;
+
+    DoubleHashTable(DoubleHashTable&& other) noexcept
+      : table(other.table), capacity(other.capacity), size(other.size) {
+        other.table = nullptr;
+        other.capacity = 0;
+        other.size = 0;
+    }
+
+    DoubleHashTable& operator=(DoubleHashTable&& other) noexcept {
+        if (this == &other) return *this;
+        delete[] table;
+        table = other.table;
+        capacity = other.capacity;
+        size = other.size;
+        other.table = nullptr;
+        other.capacity = 0;
+        other.size = 0;
+        return *this;
+    }
+
+
     bool isPrime(int n) const {
         if (n <= 1) return false;
         if (n % 2 == 0 ) return false;
@@ -64,23 +88,15 @@ private:
         int oldCapacity = capacity;
         Entry* oldTable = table;
 
-        table = new Entry[nextPrime(capacity * 2)];
         capacity = nextPrime(capacity * 2);
+        table = new Entry[capacity];
         size = 0;
-        try {
-            for (int i = 0; i < oldCapacity; i++) {
-                if (oldTable[i].status == OCCUPIED) {
-                    insert(oldTable[i].key, oldTable[i].value);
-                }
+
+        for (int i = 0; i < oldCapacity; i++) {
+            if (oldTable[i].status == OCCUPIED) {
+                insert(oldTable[i].key, oldTable[i].value);
             }
         }
-        catch (...) {
-            delete[] table;
-            table = oldTable;
-            capacity = oldCapacity;
-            throw;
-        }
-
         delete[] oldTable;
     }
 
